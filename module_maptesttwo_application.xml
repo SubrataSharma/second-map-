@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_maptesttwo_application" default="compile.module.maptesttwo_application">
+  <dirname property="module.maptesttwo_application.basedir" file="${ant.file.module_maptesttwo_application}"/>
+  
+  <property name="module.jdk.home.maptesttwo_application" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.maptesttwo_application" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.maptesttwo_application" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.maptesttwo_application" value="-encoding UTF-8 -source 7 -target 7 ${compiler.args}"/>
+  
+  <property name="maptesttwo_application.output.dir" value="${module.maptesttwo_application.basedir}/build/classes/production/MapTestTwo Application"/>
+  <property name="maptesttwo_application.testoutput.dir" value="${module.maptesttwo_application.basedir}/build/classes/test/MapTestTwo Application"/>
+  
+  <path id="maptesttwo_application.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="maptesttwo_application.module.production.classpath">
+    <path refid="${module.jdk.classpath.maptesttwo_application}"/>
+  </path>
+  
+  <path id="maptesttwo_application.runtime.production.module.classpath">
+    <pathelement location="${maptesttwo_application.output.dir}"/>
+  </path>
+  
+  <path id="maptesttwo_application.module.classpath">
+    <path refid="${module.jdk.classpath.maptesttwo_application}"/>
+    <pathelement location="${maptesttwo_application.output.dir}"/>
+  </path>
+  
+  <path id="maptesttwo_application.runtime.module.classpath">
+    <pathelement location="${maptesttwo_application.testoutput.dir}"/>
+    <pathelement location="${maptesttwo_application.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.maptesttwo_application">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.maptesttwo_application">
+    <patternset refid="excluded.from.module.maptesttwo_application"/>
+  </patternset>
+  
+  
+  <target name="compile.module.maptesttwo_application" depends="compile.module.maptesttwo_application.production,compile.module.maptesttwo_application.tests" description="Compile module MapTestTwo Application"/>
+  
+  <target name="compile.module.maptesttwo_application.production" depends="register.custom.compilers" description="Compile module MapTestTwo Application; production classes"/>
+  
+  <target name="compile.module.maptesttwo_application.tests" depends="register.custom.compilers,compile.module.maptesttwo_application.production" description="compile module MapTestTwo Application; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.maptesttwo_application" description="cleanup module">
+    <delete dir="${maptesttwo_application.output.dir}"/>
+    <delete dir="${maptesttwo_application.testoutput.dir}"/>
+  </target>
+</project>
