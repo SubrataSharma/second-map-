@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_map"
         android:icon="@drawable/ic_zoom_out_map_black_24dp"
         android:title="Home" />
     <item
-        android:id="@+id/nav_mall"
-        android:title="Mall" />
+        android:id="@+id/nav_buyer"
+        android:icon="@drawable/ic_store_black_24dp"
+        android:title="Buyer" />
     <item
-        android:id="@+id/nav_scan"
-        android:title="Scan" />
+        android:id="@+id/nav_seller"
+        android:icon="@drawable/ic_shopping_cart_black_24dp"
+        android:title="Seller" />
     <item
-        android:id="@+id/nav_bank"
-        android:title="Bank" />
+        android:id="@+id/nav_activity"
+        android:icon="@drawable/ic_show_chart_black_24dp"
+        android:title="Activity" />
 </menu>
