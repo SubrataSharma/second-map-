@@ -1,16 +1,21 @@
 package com.example.maptesttwoapplication;
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,7 +24,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,7 +38,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -51,20 +57,110 @@ private Location lastlocation;
 private Marker currentUserLocationMarker;
 private static final int Request_User_Location_Code=99;
     ActionBarDrawerToggle toggle;
-
+private EditText editText;
+private Button button;
+LatLng latlang;
+    Double lat,lon;
 
 
 @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.mapfragment,container,false);
+        View v = inflater.inflate(R.layout.mapfragment,container,false);
 
+
+        button = (Button) v.findViewById(R.id.get_location_button);
+        editText = (EditText) v.findViewById(R.id.get_location);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                List<Address> addressList = null;
+                MarkerOptions userMarkerOptions = new MarkerOptions();
+
+                if (!TextUtils.isEmpty(getEditText()))
+                {
+                    Geocoder geocoder = new Geocoder(getContext());
+
+                    try
+                    {
+                        addressList = geocoder.getFromLocationName(getEditText(), 6);
+
+                        if (addressList != null)
+                        {
+                            for (int i=0; i<addressList.size(); i++)
+                            {
+                                Address userAddress = addressList.get(i);
+                                LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
+
+                                userMarkerOptions.position(latLng);
+                                userMarkerOptions.title(getEditText());
+                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                                mMap.addMarker(userMarkerOptions);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(), "Location not found...", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "please write any location name...", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
     /*// Obtain the SupportMapFragment and get notified when the map is ready to be used.
     getFragmentManager()
             .findFragmentById(R.id.map);
     getFragmentManager().getMapAsync(this);*/
+    return v;
 }
+
+
+
+    public String getEditText() {
+        String address = editText.getText().toString();
+        return address;
+    }
+
+
+
+    public LatLng getLocationFromAddress(Context context, String strAddress){
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            Address location=address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng((double) (location.getLatitude() * 1E6),
+                    (double) (location.getLongitude() * 1E6));
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return p1;
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -99,12 +195,17 @@ private static final int Request_User_Location_Code=99;
             mMap.setMyLocationEnabled(true);
         }
         // Add a marker in Sydney and move the camera
+
+        //LatLng custom = new LatLng(getLat(),getLon());
+       // mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(custom));
         LatLng sydney = new LatLng(-34, 151);
         LatLng tokyo = new LatLng(35.652832, 139.839478);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.addMarker(new MarkerOptions().position(tokyo).title("Marker in tokyo"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(tokyo));
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
