@@ -60,6 +60,7 @@ private static final int Request_User_Location_Code=99;
 private EditText editText;
 private Button button;
 LatLng latlang;
+
     Double lat,lon;
 
 
@@ -91,6 +92,7 @@ LatLng latlang;
                         {
                             for (int i=0; i<addressList.size(); i++)
                             {
+
                                 Address userAddress = addressList.get(i);
                                 LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
 
@@ -136,30 +138,7 @@ LatLng latlang;
 
 
 
-    public LatLng getLocationFromAddress(Context context, String strAddress){
 
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        LatLng p1 = null;
-
-        try {
-            address = coder.getFromLocationName(strAddress,5);
-            if (address==null) {
-                return null;
-            }
-            Address location=address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            p1 = new LatLng((double) (location.getLatitude() * 1E6),
-                    (double) (location.getLongitude() * 1E6));
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return p1;
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

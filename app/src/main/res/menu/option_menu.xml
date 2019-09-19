@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/option1"
+        android:id="@+id/option_mechanic"
         android:icon="@drawable/ic_build_black_24dp"
         android:title="Mechanic" />
     <item
-        android:id="@+id/option2"
+        android:id="@+id/option_delivery_boy"
         android:icon="@drawable/ic_transfer_within_a_station_black_24dp"
         android:title="Delivery boy" />
 </menu>

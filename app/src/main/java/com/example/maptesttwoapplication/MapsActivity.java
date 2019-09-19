@@ -6,39 +6,26 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
+
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
+
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.Map;
 
-public class MapsActivity extends FragmentActivity {
+
+public class MapsActivity extends FragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
 
@@ -46,7 +33,7 @@ public class MapsActivity extends FragmentActivity {
     BottomNavigationView bottomNavigationView;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
-    ActionBarDrawerToggle toggle;
+
 
 
 
@@ -60,7 +47,8 @@ public class MapsActivity extends FragmentActivity {
         // navigation code
         toolbar = findViewById(R.id.toolbar);
         drawerLayout =findViewById(R.id.drawer);
-        NavigationView navigationView= findViewById(R.id.paytm_nav_view);
+        NavigationView navigationView= findViewById(R.id.work_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,
                 R.string.drawer_open,R.string.drawer_close);
@@ -106,15 +94,34 @@ public class MapsActivity extends FragmentActivity {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (toggle.onOptionsItemSelected(item)){
-            return true;
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
         }
+        else {
+            super.onBackPressed();
+        }
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.option_mechanic:
+                Intent intent=new Intent(MapsActivity.this,MechanicRegistrationActivity.class);
+                startActivity(intent);
+                //finish();
+
+                Toast.makeText(this, "my", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.option_delivery_boy:
+                Toast.makeText(this, "this option not available", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(this, "not selected", Toast.LENGTH_SHORT).show();
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+    return true;
     }
 
 
-
-
-    }
+}
