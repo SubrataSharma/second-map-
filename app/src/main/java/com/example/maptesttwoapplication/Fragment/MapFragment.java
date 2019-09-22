@@ -1,7 +1,6 @@
-package com.example.maptesttwoapplication;
+package com.example.maptesttwoapplication.Fragment;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -10,6 +9,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +25,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.maptesttwoapplication.Model_java_class.MapLocation;
+import com.example.maptesttwoapplication.R;
+import com.example.maptesttwoapplication.ServicesActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -38,9 +41,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -48,20 +57,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         LocationListener {
 
 
+    private static final String TAG = "Map fragment";
 
 
-private GoogleMap mMap;
-private GoogleApiClient googleApiClient;
-private LocationRequest locationRequest;
-private Location lastlocation;
-private Marker currentUserLocationMarker;
-private static final int Request_User_Location_Code=99;
-    ActionBarDrawerToggle toggle;
-private EditText editText;
-private Button button;
-LatLng latlang;
+    private GoogleMap mMap;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private Location lastlocation;
+    private Marker currentUserLocationMarker;
+    private static final int Request_User_Location_Code=99;
+        ActionBarDrawerToggle toggle;
+    private EditText editText;
+    private Button button;
 
-    Double lat,lon;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private DocumentReference locationRef =db.collection("company_registration_email").document("company_name");
 
 
 @Nullable
@@ -129,7 +140,49 @@ LatLng latlang;
     return v;
 }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        locationRef
+                  .addSnapshotListener(Objects.requireNonNull(getActivity()), new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if(e != null){
+                            Toast.makeText(getContext(), "Error while loading", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG,e.toString());
+                            return;
 
+                        }
+                        assert documentSnapshot != null;
+                        if(documentSnapshot.exists()){
+                            MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                            double lat = mapLocation.getLatitude();
+                            double lon = mapLocation.getLongitude();
+                            final LatLng custom = new LatLng(lat,lon);
+                            mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+
+                            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(Marker marker) {
+                                    if((marker.getPosition().latitude==custom.latitude) &&
+                                            (marker.getPosition().longitude==custom.longitude)){
+                                        Toast.makeText(getContext(), "we are one", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(getActivity(), ServicesActivity.class));
+
+                                    }else {
+
+                                    }
+
+                                    return true;
+                                }
+                            });
+
+                        }else {
+                            Toast.makeText(getContext(), "No location found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
     public String getEditText() {
         String address = editText.getText().toString();
@@ -185,14 +238,8 @@ LatLng latlang;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(tokyo));
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getContext(), "we are one", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getActivity(),ServicesActivity.class));
-                return true;
-            }
-        });
+
+
     }
 
     public boolean checkUserLocationPermission()

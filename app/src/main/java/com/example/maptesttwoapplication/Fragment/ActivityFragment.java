@@ -1,4 +1,4 @@
-package com.example.maptesttwoapplication;
+package com.example.maptesttwoapplication.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class SellerFragment extends Fragment {
+import com.example.maptesttwoapplication.R;
+
+public class ActivityFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.sellerfragment,container,false);
+        return inflater.inflate(R.layout.activityfragment,container,false);
     }
 }

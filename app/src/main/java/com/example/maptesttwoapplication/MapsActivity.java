@@ -1,11 +1,8 @@
 package com.example.maptesttwoapplication;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -20,6 +17,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.example.maptesttwoapplication.Fragment.ActivityFragment;
+import com.example.maptesttwoapplication.Fragment.BuyerFragment;
+import com.example.maptesttwoapplication.Fragment.MapFragment;
+import com.example.maptesttwoapplication.Fragment.SellerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -109,9 +110,9 @@ public class MapsActivity extends FragmentActivity implements NavigationView.OnN
             case R.id.option_mechanic:
                 Intent intent=new Intent(MapsActivity.this,MechanicRegistrationActivity.class);
                 startActivity(intent);
-                //finish();
+                finish();
 
-                Toast.makeText(this, "my", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.option_delivery_boy:
                 Toast.makeText(this, "this option not available", Toast.LENGTH_SHORT).show();

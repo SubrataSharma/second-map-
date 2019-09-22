@@ -108,6 +108,7 @@
 
 
         <Button
+            android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="10dp"
@@ -118,7 +119,8 @@
             android:textSize="25dp"
             android:background="@drawable/background_shape"
             android:textColor="@color/white"
-            android:text="NEXT" />
+            android:text="SUBMIT"
+            android:onClick="submitButton"/>
 
     </RelativeLayout>
     </ScrollView>
