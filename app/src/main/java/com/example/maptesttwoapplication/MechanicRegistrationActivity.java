@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -40,7 +41,15 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
     private static final String KEY_LATITUDE = "Latitude";
     private static final String KEY_LONGITUDE = "Longitude";
     private GoogleMap mMap;
-    private EditText editText;
+    private EditText editText,
+                    editText_2,
+                    editText_3,
+                    editText_4,
+                    editText_5,
+                    editText_6,
+                    editText_7,
+                    editText_8;
+    private String company_name = "";
     private ImageButton imageButton;
     private Button submit_button;
 
@@ -48,7 +57,7 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
     Double lon =0.0;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference locationRef =db.collection("company_registration_email").document("company_name");
+    private CollectionReference locationRef =db.collection("company_registration_email");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,23 +136,21 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
 
      public void submitButton(View view) {
 
-            // remember to add model class Location
-         MapLocation mapLocation = new MapLocation(lat,lon);
+         editText_2 = findViewById(R.id.edit_text_2);
+         company_name=editText_2.getText().toString();
 
-         locationRef.set(mapLocation)
-                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-                     @Override
-                     public void onSuccess(Void aVoid) {
-                         Toast.makeText(MechanicRegistrationActivity.this, "location added", Toast.LENGTH_SHORT).show();
-                     }
-                 })
-                 .addOnFailureListener(new OnFailureListener() {
-                     @Override
-                     public void onFailure(@NonNull Exception e) {
-                         Toast.makeText(MechanicRegistrationActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                         Log.d(TAG, e.toString());
-                     }
-                 });
+
+        // remember to add model class Location
+         MapLocation mapLocation = new MapLocation(lat,lon,company_name);
+
+         locationRef.add(mapLocation).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+             @Override
+             public void onSuccess(DocumentReference documentReference) {
+                 Toast.makeText(MechanicRegistrationActivity.this, "location added", Toast.LENGTH_SHORT).show();
+
+             }
+         });
+
       }
 
              @Override
@@ -152,4 +159,4 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
 
                 super.onBackPressed();
              }
-         }
+}

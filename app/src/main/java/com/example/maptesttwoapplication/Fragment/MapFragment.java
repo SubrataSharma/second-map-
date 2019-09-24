@@ -41,15 +41,20 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -72,7 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private DocumentReference locationRef =db.collection("company_registration_email").document("company_name");
+    private CollectionReference locationRef =db.collection("company_registration_email");
 
 
 @Nullable
@@ -143,45 +148,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onStart() {
         super.onStart();
-        locationRef
-                  .addSnapshotListener(Objects.requireNonNull(getActivity()), new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                        if(e != null){
-                            Toast.makeText(getContext(), "Error while loading", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG,e.toString());
-                            return;
+        locationRef.addSnapshotListener(  new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                if(e !=null){
+                    return;
+                }
+                assert queryDocumentSnapshots != null;
+                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                    final double lat = mapLocation.getLatitude();
+                    final double lon = mapLocation.getLongitude();
+                    final LatLng custom = new LatLng(lat,lon);
+                    mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
 
+                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            if((marker.getPosition().latitude==lat) &&
+                                    (marker.getPosition().longitude==lon)){
+                                Toast.makeText(getContext(), "we are one", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getActivity(), ServicesActivity.class));
+
+                            }else {
+
+                            }
+
+                            return true;
                         }
-                        assert documentSnapshot != null;
-                        if(documentSnapshot.exists()){
-                            MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
-                            double lat = mapLocation.getLatitude();
-                            double lon = mapLocation.getLongitude();
-                            final LatLng custom = new LatLng(lat,lon);
-                            mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+                    });
+                }
+            }
+        });
 
-                            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                                @Override
-                                public boolean onMarkerClick(Marker marker) {
-                                    if((marker.getPosition().latitude==custom.latitude) &&
-                                            (marker.getPosition().longitude==custom.longitude)){
-                                        Toast.makeText(getContext(), "we are one", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(getActivity(), ServicesActivity.class));
-
-                                    }else {
-
-                                    }
-
-                                    return true;
-                                }
-                            });
-
-                        }else {
-                            Toast.makeText(getContext(), "No location found", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 
     public String getEditText() {
@@ -231,12 +230,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         //LatLng custom = new LatLng(getLat(),getLon());
        // mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(custom));
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng tokyo = new LatLng(35.652832, 139.839478);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.addMarker(new MarkerOptions().position(tokyo).title("Marker in tokyo"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(tokyo));
+
 
 
 
@@ -355,6 +349,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+
 }
 
 
