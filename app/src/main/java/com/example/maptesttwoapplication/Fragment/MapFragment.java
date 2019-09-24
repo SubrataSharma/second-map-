@@ -48,6 +48,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -117,7 +118,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                 userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
                                 mMap.addMarker(userMarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                             }
                         }
                         else
@@ -162,21 +163,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     final LatLng custom = new LatLng(lat,lon);
                     mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
 
-                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            if((marker.getPosition().latitude==lat) &&
-                                    (marker.getPosition().longitude==lon)){
-                                Toast.makeText(getContext(), "we are one", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getActivity(), ServicesActivity.class));
-
-                            }else {
-
-                            }
-
-                            return true;
-                        }
-                    });
+                    loadServiceActivity();
                 }
             }
         });
@@ -349,7 +336,33 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+    private void loadServiceActivity(){
 
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Query loc=locationRef.whereEqualTo("latitude",marker.getPosition().latitude)
+                        .whereEqualTo("longitude",marker.getPosition().longitude);
+                loc.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                            MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                            mapLocation.setDocumentId(documentSnapshot.getId());
+                            if(mapLocation.getLatitude()!= 0 && mapLocation.getLongitude()!=0){
+                                String document =mapLocation.getDocumentId();
+                                Intent intent =new Intent(getActivity(),ServicesActivity.class);
+                                intent.putExtra("ID",document);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                });
+
+                return true;
+            }
+        });
+    }
 
 }
 

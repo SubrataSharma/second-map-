@@ -1,10 +1,13 @@
 package com.example.maptesttwoapplication.Model_java_class;
 
+import com.google.firebase.firestore.Exclude;
+
 public class MapLocation {
 
     private double latitude;
     private double longitude;
     private String company_name;
+    private String documentId;
 
 
 
@@ -28,4 +31,13 @@ public class MapLocation {
     public String getCompany_name() {
         return company_name;
     }
+    @Exclude
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
 }
