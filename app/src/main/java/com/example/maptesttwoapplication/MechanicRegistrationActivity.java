@@ -37,27 +37,15 @@ import java.util.List;
 
 public class MechanicRegistrationActivity extends AppCompatActivity implements OnMapReadyCallback
          {
-    private static final String TAG = "MechanicRegistrationActivity";
-    private static final String KEY_LATITUDE = "Latitude";
-    private static final String KEY_LONGITUDE = "Longitude";
+
     private GoogleMap mMap;
-    private EditText editText,
-                    editText_2,
-                    editText_3,
-                    editText_4,
-                    editText_5,
-                    editText_6,
-                    editText_7,
-                    editText_8;
-    private String company_name = "";
+    private EditText editText;
     private ImageButton imageButton;
     private Button submit_button;
 
     Double lat = 0.0;
     Double lon =0.0;
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference locationRef =db.collection("company_registration_email");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,20 +124,17 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
 
      public void submitButton(View view) {
 
-         editText_2 = findViewById(R.id.edit_text_2);
-         company_name=editText_2.getText().toString();
+
+
+         Intent intent =new Intent(this,MechanicRegistrationSecondActivity.class);
+         intent.putExtra("latitude",lat);
+         intent.putExtra("longitude",lon);
+         startActivity(intent);
+
 
 
         // remember to add model class Location
-         MapLocation mapLocation = new MapLocation(lat,lon,company_name);
 
-         locationRef.add(mapLocation).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-             @Override
-             public void onSuccess(DocumentReference documentReference) {
-                 Toast.makeText(MechanicRegistrationActivity.this, "location added", Toast.LENGTH_SHORT).show();
-
-             }
-         });
 
       }
 

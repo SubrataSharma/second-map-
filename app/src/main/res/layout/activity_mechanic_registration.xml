@@ -12,12 +12,12 @@
         android:id="@+id/map_registration"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="340dp"
-        tools:context=".MapsActivity" />
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity"
+        />
     <EditText
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
         android:background="@drawable/background_search_shape"
         android:layout_marginTop="10dp"
         android:gravity="top"
@@ -33,78 +33,8 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/ic_search_black_24dp" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/map_registration">
 
-    <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_2"
-            android:hint="Company name"
-            android:inputType="textMultiLine"
-            android:layout_marginTop="10dp"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_3"
-            android:hint="Register name"
-            android:layout_marginTop="60dp"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_text_4"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="contact no"
-            android:inputType="number"
-            android:layout_marginTop="110dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_5"
-            android:hint="Email"
-            android:layout_marginTop="160dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_6"
-            android:hint="password"
-            android:password="true"
-            android:layout_marginTop="210dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_7"
-            android:hint="confirm password"
-            android:password="true"
-            android:layout_marginTop="260dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_8"
-            android:hint="Service type"
-            android:inputType="text"
-            android:layout_marginTop="310dp"/>
 
 
         <Button
@@ -113,17 +43,19 @@
             android:layout_height="60dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="365dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
             android:textStyle="bold"
             android:textSize="25dp"
             android:background="@drawable/background_shape"
             android:textColor="@color/white"
-            android:text="SUBMIT"
-            android:onClick="submitButton"/>
+            android:text="NEXT"
+            android:onClick="submitButton"
+            />
 
-    </RelativeLayout>
-    </ScrollView>
+
+
 
 
 </RelativeLayout>

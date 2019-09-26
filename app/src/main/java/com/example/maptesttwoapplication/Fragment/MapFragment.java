@@ -349,6 +349,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
                             MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
                             mapLocation.setDocumentId(documentSnapshot.getId());
+
                             if(mapLocation.getLatitude()!= 0 && mapLocation.getLongitude()!=0){
                                 String document =mapLocation.getDocumentId();
                                 Intent intent =new Intent(getActivity(),ServicesActivity.class);

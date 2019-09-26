@@ -1,26 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MechanicRegistrationSecondActivity"
-    android:background="#111">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="300dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"
-        android:textColor="#fff"
-        android:textStyle="italic"
-        android:textSize="70dp"
-        android:text="R8zone"/>
+    android:background="@color/colorPrimary">
+        <ImageView
+            android:layout_width="270dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/icon"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/edit_text_2"
+            android:hint="Company name"
+            android:background="@drawable/background_edittext_shape"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="156dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/edit_text_3"
+            android:hint="Register name"
+            android:background="@drawable/background_edittext_shape"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/edit_text_2"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_text_4"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="contact no"
+            android:inputType="number"
+            android:background="@drawable/background_edittext_shape"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/edit_text_3"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/background_edittext_shape"
+            android:id="@+id/edit_text_5"
+            android:hint="Email"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/edit_text_4"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/background_edittext_shape"
+            android:id="@+id/edit_text_6"
+            android:hint="password"
+            android:password="true"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/edit_text_5"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/edit_text_7"
+            android:hint="confirm password"
+            android:background="@drawable/background_edittext_shape"
+            android:password="true"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/edit_text_6"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/edit_text_8"
+            android:hint="Service type"
+            android:inputType="text"
+            android:background="@drawable/background_edittext_shape"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/edit_text_7"/>
+
+        <Button
+            android:id="@+id/previous_button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:background="@drawable/background_shape"
+            android:textColor="@color/white"
+            android:text="PREVIOUS"
+            android:onClick="previousButton"
+            android:layout_below="@+id/edit_text_8"/>
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:background="@drawable/background_shape"
+            android:textColor="@color/white"
+            android:text="SUBMIT"
+            android:onClick="submitButton"
+            android:layout_below="@+id/edit_text_8"/>
+
+</RelativeLayout>
