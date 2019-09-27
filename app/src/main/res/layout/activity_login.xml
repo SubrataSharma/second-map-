@@ -13,10 +13,10 @@
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/icon"
+        android:background="@drawable/logo"
         />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginLeft="10dp"
@@ -28,7 +28,7 @@
         android:layout_centerHorizontal="true"
         android:hint="Email"
         android:id="@+id/user_login_name"/>
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginLeft="10dp"
@@ -54,7 +54,20 @@
         android:layout_below="@+id/user_login_pass"
         android:background="@drawable/background_shape"
         android:textColor="@color/white"
-        android:text="SUBMIT"
+        android:text="Login"
+        android:textAllCaps="false"
         android:onClick="userLoginSubmitButton"/>
+    <TextView
+        android:id="@+id/sign_up_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_below="@+id/user_login_submit_button"
+        android:textColor="@color/white"
+        android:text="Sign Up Here"
+        android:onClick="signUpOption"/>
 
 </RelativeLayout>

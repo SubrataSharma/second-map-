@@ -3,4 +3,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
+    <string name="R8ZONE">R8ZONE</string>
 </resources>

@@ -13,7 +13,7 @@
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/icon"
+        android:background="@drawable/logo"
         />
 
     <EditText
@@ -80,7 +80,7 @@
         android:layout_below="@+id/user_registration_con_pass"
         android:background="@drawable/background_shape"
         android:textColor="@color/white"
-        android:text="SUBMIT"
+        android:text="REGISTER"
         android:onClick="userRegisterSubmitButton"/>
 
 </RelativeLayout>

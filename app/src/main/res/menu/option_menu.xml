@@ -8,4 +8,7 @@
         android:id="@+id/option_delivery_boy"
         android:icon="@drawable/ic_transfer_within_a_station_black_24dp"
         android:title="Delivery boy" />
+    <item
+        android:id="@+id/option_logout"
+        android:title="Log out" />
 </menu>

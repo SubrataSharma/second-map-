@@ -23,7 +23,7 @@ import com.example.maptesttwoapplication.Fragment.MapFragment;
 import com.example.maptesttwoapplication.Fragment.SellerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MapsActivity extends FragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -116,6 +116,11 @@ public class MapsActivity extends FragmentActivity implements NavigationView.OnN
                 break;
             case R.id.option_delivery_boy:
                 Toast.makeText(this, "this option not available", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.option_logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this,LoginActivity.class));
+                finish();
                 break;
             default:
                 Toast.makeText(this, "not selected", Toast.LENGTH_SHORT).show();

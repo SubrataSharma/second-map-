@@ -124,15 +124,17 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
 
      public void submitButton(View view) {
 
+         if((lat==0)||(lon==0)) {
+             Toast.makeText(this, "No valid location found", Toast.LENGTH_SHORT).show();
+         }else {
+
+             Intent intent = new Intent(this, MechanicRegistrationSecondActivity.class);
+             intent.putExtra("latitude", lat);
+             intent.putExtra("longitude", lon);
+             startActivity(intent);
 
 
-         Intent intent =new Intent(this,MechanicRegistrationSecondActivity.class);
-         intent.putExtra("latitude",lat);
-         intent.putExtra("longitude",lon);
-         startActivity(intent);
-
-
-
+         }
         // remember to add model class Location
 
 

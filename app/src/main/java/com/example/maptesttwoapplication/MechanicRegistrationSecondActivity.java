@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.protobuf.Empty;
 
 public class MechanicRegistrationSecondActivity extends AppCompatActivity {
 
@@ -31,7 +32,12 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
         String company= company_name.getText().toString();
          double lat =  getIntent().getExtras().getDouble("latitude");
          double lon =  getIntent().getExtras().getDouble("longitude");
-        MapLocation mapLocation = new MapLocation(lat,lon,company);
+
+         if(company.isEmpty()||(lat==0)||(lon==0)){
+             Toast.makeText(this, "No valid location found", Toast.LENGTH_SHORT).show();
+         }else {
+             MapLocation mapLocation = new MapLocation(lat, lon, company);
+
 
         locationRef.add(mapLocation).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -40,6 +46,7 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
 
             }
         });
+         }
     }
 
     public void previousButton(View view) {
