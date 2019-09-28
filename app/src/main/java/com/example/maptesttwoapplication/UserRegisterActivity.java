@@ -10,16 +10,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.maptesttwoapplication.Model_java_class.UserData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
+
 
 public class UserRegisterActivity extends AppCompatActivity {
     private EditText Username,userEmail,Pass,conPass;
@@ -46,9 +46,9 @@ public class UserRegisterActivity extends AppCompatActivity {
         String txt_conpass = conPass.getText().toString();
 
         if(TextUtils.isEmpty(txt_username)||TextUtils.isEmpty(txt_email)||TextUtils.isEmpty(txt_pass)||TextUtils.isEmpty(txt_conpass)){
-            Toast.makeText(UserRegisterActivity.this,"All fields are requireds ",Toast.LENGTH_LONG).show();
+            Toast.makeText(UserRegisterActivity.this,"All fields are requires ",Toast.LENGTH_LONG).show();
         }else if(txt_pass.length() < 6){
-            Toast.makeText(UserRegisterActivity.this, "Password must be atleast 6 digits", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserRegisterActivity.this, "Password must be at least 6 digits", Toast.LENGTH_SHORT).show();
         }else if(!txt_pass.equals(txt_conpass)) {
             Toast.makeText(UserRegisterActivity.this, "please enter the same password again", Toast.LENGTH_SHORT).show();
             //register(txt_username,txt_email,txt_password);
@@ -73,13 +73,11 @@ public class UserRegisterActivity extends AppCompatActivity {
                             String userid = firebaseUser.getUid();
 
                             DocumentReference locationRef =db.collection("user_registration_email").document(userid);
-                            HashMap<String, String> hashMap = new HashMap<String, String>();
-                            hashMap.put("id", userid);
-                            hashMap.put("username", username);
-                            hashMap.put("imageURL", email);
+
+                            UserData userData=new UserData(userid,username,email);
 
 
-                            locationRef.set(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            locationRef.set(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
@@ -98,6 +96,13 @@ public class UserRegisterActivity extends AppCompatActivity {
                     }
                 });
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
 
     }
 }

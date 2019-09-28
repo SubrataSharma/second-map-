@@ -10,7 +10,7 @@
             android:bottom="7dip"
             android:left="25dip"
             android:right="7dip"
-            android:top="19dip" />
+            android:top="5dip" />
         <stroke
             android:color="@color/colorPrimaryDark"
             android:width="2dp">

@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserRegisterActivity"
-    android:background="@color/colorPrimary">
-
+   >
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <ImageView
         android:layout_width="270dp"
         android:layout_height="100dp"
@@ -82,5 +87,6 @@
         android:textColor="@color/white"
         android:text="REGISTER"
         android:onClick="userRegisterSubmitButton"/>
-
+    </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

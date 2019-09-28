@@ -5,11 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MechanicRegistrationSecondActivity"
-    android:background="@color/colorPrimary">
+    >
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/logo"
             android:layout_width="270dp"
             android:layout_height="100dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:background="@drawable/logo"
@@ -17,80 +24,81 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_2"
+            android:id="@+id/mechanic_company_name"
             android:hint="Company name"
-            android:background="@drawable/background_edittext_shape"
+            android:layout_below="@+id/logo"
+            android:background="@drawable/background_mechanic_edittext_shape"
             android:inputType="textMultiLine"
-            android:layout_marginTop="156dp"/>
+            android:layout_marginTop="15dp"/>
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_3"
+            android:id="@+id/mechanic_register_name"
             android:hint="Register name"
-            android:background="@drawable/background_edittext_shape"
+            android:background="@drawable/background_mechanic_edittext_shape"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/edit_text_2"/>
+            android:layout_below="@+id/mechanic_company_name"/>
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_text_4"
+            android:layout_height="55dp"
+            android:id="@+id/mechanic_contact_no"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:hint="contact no"
             android:inputType="number"
-            android:background="@drawable/background_edittext_shape"
+            android:background="@drawable/background_mechanic_edittext_shape"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/edit_text_3"/>
+            android:layout_below="@+id/mechanic_register_name"/>
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/background_edittext_shape"
-            android:id="@+id/edit_text_5"
+            android:background="@drawable/background_mechanic_edittext_shape"
+            android:id="@+id/mechanic_email"
             android:hint="Email"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/edit_text_4"/>
+            android:layout_below="@+id/mechanic_contact_no"/>
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/background_edittext_shape"
-            android:id="@+id/edit_text_6"
+            android:background="@drawable/background_mechanic_edittext_shape"
+            android:id="@+id/mechanic_pass"
             android:hint="password"
             android:password="true"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/edit_text_5"/>
+            android:layout_below="@+id/mechanic_email"/>
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_7"
+            android:id="@+id/mechanic_con_pass"
             android:hint="confirm password"
-            android:background="@drawable/background_edittext_shape"
+            android:background="@drawable/background_mechanic_edittext_shape"
             android:password="true"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/edit_text_6"/>
+            android:layout_below="@+id/mechanic_pass"/>
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/edit_text_8"
+            android:id="@+id/mechanic_service"
             android:hint="Service type"
             android:inputType="text"
-            android:background="@drawable/background_edittext_shape"
+            android:background="@drawable/background_mechanic_edittext_shape"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/edit_text_7"/>
+            android:layout_below="@+id/mechanic_con_pass"/>
 
         <Button
             android:id="@+id/previous_button"
@@ -106,14 +114,12 @@
             android:textColor="@color/white"
             android:text="PREVIOUS"
             android:onClick="previousButton"
-            android:layout_below="@+id/edit_text_8"/>
+            android:layout_below="@+id/mechanic_service"/>
 
         <Button
             android:id="@+id/submit_button"
             android:layout_width="150dp"
             android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="10dp"
             android:textStyle="bold"
@@ -122,6 +128,10 @@
             android:textColor="@color/white"
             android:text="SUBMIT"
             android:onClick="submitButton"
-            android:layout_below="@+id/edit_text_8"/>
+            android:layout_below="@+id/mechanic_service"
+            android:layout_toRightOf="@+id/previous_button"
+            android:layout_marginLeft="46dp"/>
+        </RelativeLayout>
+        </ScrollView>
 
 </RelativeLayout>

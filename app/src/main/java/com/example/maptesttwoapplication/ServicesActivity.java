@@ -51,11 +51,20 @@ public class ServicesActivity extends AppCompatActivity {
 
                 double lat = mapLocation.getLatitude();
                 double lon = mapLocation.getLongitude();
-                String company_name = mapLocation.getCompany_name();
+                String company = mapLocation.getCompany();
+                String registerName = mapLocation.getRegisterName();
+                String contactNo = mapLocation.getContactNo();
+                String email = mapLocation.getEmail();
+                String serviceType = mapLocation.getServiceType();
+
 
                 User_data = "latitude:"+lat+"\n\n"+
                         "longitude:"+lon+"\n\n"+
-                        "company name:"+company_name;
+                        "company name:"+company+"\n\n"+
+                        "registerName:"+registerName+"\n\n"+
+                        "contactNo:"+contactNo+"\n\n"+
+                        "Email:"+email+"\n\n"+
+                        "service:"+serviceType+"\n\n";
                 textView.setText(User_data);
 
 

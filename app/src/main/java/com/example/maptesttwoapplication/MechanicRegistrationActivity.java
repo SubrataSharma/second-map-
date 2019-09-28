@@ -134,6 +134,7 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
              startActivity(intent);
 
 
+
          }
         // remember to add model class Location
 
@@ -142,8 +143,13 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
 
              @Override
              public void onBackPressed() {
-                startActivity(new Intent(MechanicRegistrationActivity.this,MapsActivity.class));
-
-                super.onBackPressed();
+                 super.onBackPressed();
+                 startActivity(new Intent(MechanicRegistrationActivity.this,MechanicLoginActivity.class));
+                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
              }
-}
+
+             public void previousButton(View view) {
+                 startActivity(new Intent(MechanicRegistrationActivity.this,MechanicLoginActivity.class));
+                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+             }
+         }

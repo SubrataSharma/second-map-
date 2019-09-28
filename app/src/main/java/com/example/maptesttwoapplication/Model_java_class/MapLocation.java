@@ -6,7 +6,12 @@ public class MapLocation {
 
     private double latitude;
     private double longitude;
-    private String company_name;
+    private String company;
+    private String registerName;
+    private String contactNo;
+    private String email;
+    private String password;
+    private String serviceType;
     private String documentId;
 
 
@@ -15,11 +20,15 @@ public class MapLocation {
     }
 
 
-
-    public MapLocation(double latitude, double longitude, String company_name) {
+    public MapLocation(double latitude, double longitude, String company, String registerName,
+                       String contactNo, String email, String serviceType) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.company_name = company_name;
+        this.company = company;
+        this.registerName = registerName;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.serviceType = serviceType;
     }
 
     public double getLatitude() {
@@ -30,9 +39,27 @@ public class MapLocation {
         return longitude;
     }
 
-    public String getCompany_name() {
-        return company_name;
+    public String getCompany() {
+        return company;
     }
+
+    public String getRegisterName() {
+        return registerName;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
     @Exclude
     public String getDocumentId() {
         return documentId;

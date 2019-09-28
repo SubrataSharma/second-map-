@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="@color/colorPrimary">
-
+    >
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <ImageView
         android:layout_width="270dp"
         android:layout_height="100dp"
@@ -16,7 +21,7 @@
         android:background="@drawable/logo"
         />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginLeft="10dp"
@@ -28,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:hint="Email"
         android:id="@+id/user_login_name"/>
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginLeft="10dp"
@@ -62,12 +67,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:textSize="25dp"
         android:layout_below="@+id/user_login_submit_button"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         android:text="Sign Up Here"
         android:onClick="signUpOption"/>
+    </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

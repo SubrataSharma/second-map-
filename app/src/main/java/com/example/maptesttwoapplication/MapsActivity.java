@@ -88,6 +88,7 @@ public class MapsActivity extends FragmentActivity implements NavigationView.OnN
 
 
                     }
+                    assert selectedFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.work_fragment,selectedFragment).commit();
                     return true;
                 }
@@ -108,7 +109,7 @@ public class MapsActivity extends FragmentActivity implements NavigationView.OnN
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.option_mechanic:
-                Intent intent=new Intent(MapsActivity.this,MechanicRegistrationActivity.class);
+                Intent intent=new Intent(MapsActivity.this,MechanicLoginActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -120,6 +121,7 @@ public class MapsActivity extends FragmentActivity implements NavigationView.OnN
             case R.id.option_logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(this,LoginActivity.class));
+                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
                 finish();
                 break;
             default:
