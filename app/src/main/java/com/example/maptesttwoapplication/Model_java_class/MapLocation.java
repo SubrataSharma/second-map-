@@ -1,9 +1,9 @@
 package com.example.maptesttwoapplication.Model_java_class;
 
-import com.google.firebase.firestore.Exclude;
 
 public class MapLocation {
 
+    private String id;
     private double latitude;
     private double longitude;
     private String company;
@@ -12,7 +12,7 @@ public class MapLocation {
     private String email;
     private String password;
     private String serviceType;
-    private String documentId;
+
 
 
 
@@ -20,8 +20,9 @@ public class MapLocation {
     }
 
 
-    public MapLocation(double latitude, double longitude, String company, String registerName,
+    public MapLocation(String id,double latitude, double longitude, String company, String registerName,
                        String contactNo, String email, String serviceType) {
+        this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.company = company;
@@ -29,6 +30,10 @@ public class MapLocation {
         this.contactNo = contactNo;
         this.email = email;
         this.serviceType = serviceType;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public double getLatitude() {
@@ -60,13 +65,6 @@ public class MapLocation {
         return serviceType;
     }
 
-    @Exclude
-    public String getDocumentId() {
-        return documentId;
-    }
 
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
 
 }

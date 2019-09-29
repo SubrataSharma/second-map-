@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         String txt_password = login_pass.getText().toString();
 
         if(TextUtils.isEmpty(txt_email)||TextUtils.isEmpty(txt_password)){
-            Toast.makeText(LoginActivity.this, "fill all fileds", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "please enter email & password", Toast.LENGTH_SHORT).show();
         }else {
             auth.signInWithEmailAndPassword(txt_email,txt_password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

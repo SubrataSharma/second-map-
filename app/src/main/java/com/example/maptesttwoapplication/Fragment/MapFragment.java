@@ -78,7 +78,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private CollectionReference locationRef =db.collection("company_registration_email");
+    private CollectionReference locationRef =db.collection("company_registration");
 
 
 @Nullable
@@ -348,10 +348,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
                             MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
-                            mapLocation.setDocumentId(documentSnapshot.getId());
+
 
                             if(mapLocation.getLatitude()!= 0 && mapLocation.getLongitude()!=0){
-                                String document =mapLocation.getDocumentId();
+                                String document =mapLocation.getId();
                                 Intent intent =new Intent(getActivity(),ServicesActivity.class);
                                 intent.putExtra("ID",document);
                                 startActivity(intent);

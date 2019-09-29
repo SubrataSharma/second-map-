@@ -1,5 +1,6 @@
 package com.example.maptesttwoapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,17 +10,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.maptesttwoapplication.Model_java_class.MapLocation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.protobuf.Empty;
 
+import java.util.Objects;
+
 public class MechanicRegistrationSecondActivity extends AppCompatActivity {
 
     EditText company_name,register_name,contact_no,company_email, pass, con_pass,service;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference locationRef =db.collection("company_registration_email");
+    private FirebaseAuth auth= FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,19 +64,40 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
              Toast.makeText(this, "please enter the same password again", Toast.LENGTH_SHORT).show();
              //register(txt_username,txt_email,txt_password);
          }else {
-             startActivity(new Intent(this,MapsActivity.class));
+             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+             assert firebaseUser != null;
+             if(Objects.equals(firebaseUser.getEmail(), email)){
+                 String userid = firebaseUser.getUid();
 
-             MapLocation mapLocation = new MapLocation(lat, lon, company,
-                     registerName,contactNo,email,serviceType);
+                 DocumentReference locationRef =db.collection("company_registration").document(userid);
+                 MapLocation mapLocation = new MapLocation(userid,lat, lon, company,
+                         registerName,contactNo,email,serviceType);
+                 locationRef.set(mapLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                     @Override
+                     public void onComplete(@NonNull Task<Void> task) {
+                         if(task.isSuccessful()){
+                             Intent intent = new Intent(MechanicRegistrationSecondActivity.this,MapsActivity.class);
+                             Toast.makeText(MechanicRegistrationSecondActivity.this,"successfully registered",Toast.LENGTH_LONG).show();
+                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                             startActivity(intent);
+                             finish();
+                         }
+                     }
+                 }).addOnFailureListener(new OnFailureListener() {
+                     @Override
+                     public void onFailure(@NonNull Exception e) {
+                         Toast.makeText(MechanicRegistrationSecondActivity.this,"you can't register",Toast.LENGTH_LONG).show();
+                         finish();
+                     }
+                 });
+             }else{
+                 mechanicRegister(email, password, lat, lon, company, registerName, contactNo, serviceType);
+             }
 
 
-        locationRef.add(mapLocation).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(MechanicRegistrationSecondActivity.this, "location added", Toast.LENGTH_SHORT).show();
 
-            }
-        });
+
+
          }
     }
 
@@ -82,7 +113,41 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
 
-    public void mechanicRegister(String email,String password,double lat,double lon,String company,
-                                String registerName,String contactNo,String serviceType) {
+    public void mechanicRegister(final String email, String password, final double lat, final double lon, final String company,
+                                 final String registerName, final String contactNo, final String serviceType) {
+
+        auth.createUserWithEmailAndPassword(email,password)
+               .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                   @Override
+                   public void onComplete(@NonNull Task<AuthResult> task) {
+                       if(task.isSuccessful()){
+
+                           FirebaseUser firebaseUser = auth.getCurrentUser();
+                           assert firebaseUser != null;
+                           String userid = firebaseUser.getUid();
+
+                           DocumentReference locationRef =db.collection("company_registration").document(userid);
+                           MapLocation mapLocation = new MapLocation(userid,lat, lon, company,
+                                   registerName,contactNo,email,serviceType);
+                           locationRef.set(mapLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                               @Override
+                               public void onComplete(@NonNull Task<Void> task) {
+                                   if(task.isSuccessful()){
+                                       Intent intent = new Intent(MechanicRegistrationSecondActivity.this,MapsActivity.class);
+                                       Toast.makeText(MechanicRegistrationSecondActivity.this,"successfully registered",Toast.LENGTH_LONG).show();
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                       startActivity(intent);
+                                       finish();
+                                   }
+                               }
+                           });
+
+                       }else {
+                           Toast.makeText(MechanicRegistrationSecondActivity.this,"you can't register",Toast.LENGTH_LONG).show();
+                           finish();
+                       }
+                   }
+               });
+
     }
 }

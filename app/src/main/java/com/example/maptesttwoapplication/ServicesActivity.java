@@ -40,7 +40,7 @@ public class ServicesActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         final String value =  getIntent().getExtras().getString("ID");
-        DocumentReference locationRef =db.collection("company_registration_email").document(value);
+        DocumentReference locationRef =db.collection("company_registration").document(value);
         locationRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

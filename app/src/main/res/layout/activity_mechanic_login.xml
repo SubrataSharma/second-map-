@@ -31,7 +31,7 @@
                 android:gravity="top"
                 android:layout_centerHorizontal="true"
                 android:hint="Email"
-                android:id="@+id/user_login_name"/>
+                android:id="@+id/mechanic_login_name"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
@@ -43,8 +43,8 @@
                 android:gravity="top"
                 android:layout_centerHorizontal="true"
                 android:hint="Password"
-                android:layout_below="@+id/user_login_name"
-                android:id="@+id/user_login_pass"/>
+                android:layout_below="@+id/mechanic_login_name"
+                android:id="@+id/mechanic_login_pass"/>
             <Button
                 android:id="@+id/user_login_submit_button"
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                 android:layout_marginBottom="10dp"
                 android:textStyle="bold"
                 android:textSize="25dp"
-                android:layout_below="@+id/user_login_pass"
+                android:layout_below="@+id/mechanic_login_pass"
                 android:background="@drawable/background_shape"
                 android:textColor="@color/white"
                 android:text="Login"

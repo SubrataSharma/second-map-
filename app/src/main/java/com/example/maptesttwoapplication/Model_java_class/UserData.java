@@ -1,5 +1,7 @@
 package com.example.maptesttwoapplication.Model_java_class;
 
+
+
 public class UserData {
     private String id;
     private String username;

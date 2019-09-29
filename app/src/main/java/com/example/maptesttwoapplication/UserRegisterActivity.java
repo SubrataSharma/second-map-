@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.maptesttwoapplication.Model_java_class.UserData;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
 
 
 public class UserRegisterActivity extends AppCompatActivity {
@@ -26,6 +28,7 @@ public class UserRegisterActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth auth= FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser;
 
 
     @Override
@@ -53,8 +56,9 @@ public class UserRegisterActivity extends AppCompatActivity {
             Toast.makeText(UserRegisterActivity.this, "please enter the same password again", Toast.LENGTH_SHORT).show();
             //register(txt_username,txt_email,txt_password);
         }else {
+
             register(txt_username,txt_email,txt_pass);
-            startActivity(new Intent(this,MapsActivity.class));
+
         }
 
 
@@ -67,12 +71,12 @@ public class UserRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-
+                            Toast.makeText(UserRegisterActivity.this, "", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             assert firebaseUser != null;
                             String userid = firebaseUser.getUid();
 
-                            DocumentReference locationRef =db.collection("user_registration_email").document(userid);
+                            DocumentReference locationRef =db.collection("user_registration").document(userid);
 
                             UserData userData=new UserData(userid,username,email);
 
@@ -94,7 +98,13 @@ public class UserRegisterActivity extends AppCompatActivity {
                             finish();
                         }
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "you can't register in this email", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
 
     }

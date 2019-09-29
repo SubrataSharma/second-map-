@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <ImageView
+        android:id="@+id/user_register_logo"
         android:layout_width="270dp"
         android:layout_height="100dp"
         android:layout_marginTop="50dp"
@@ -20,6 +21,17 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/logo"
         />
+    <TextView
+        android:id="@+id/sign_up_option"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:layout_below="@+id/user_register_logo"
+        android:textColor="@color/colorPrimary"
+        android:text="please do not use the same email you use for mechanic registration *"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -28,10 +40,11 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/background_edittext_shape"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="10dp"
         android:gravity="top"
         android:layout_centerHorizontal="true"
         android:hint="User Name"
+        android:layout_below="@+id/sign_up_option"
         android:id="@+id/user_registration_name"/>
     <EditText
         android:layout_width="match_parent"
