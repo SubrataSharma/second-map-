@@ -47,38 +47,38 @@
         android:id="@+id/previous_button"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:textStyle="italic"
+        android:textSize="19dp"
         android:layout_alignParentBottom="true"
-        android:textStyle="bold"
-        android:textSize="25dp"
         android:background="@drawable/background_shape"
         android:textColor="@color/white"
-        android:text="PREVIOUS"
+        android:textAllCaps="false"
+        android:text="←back    "
         android:onClick="previousButton"
         />
-
-
 
         <Button
             android:id="@+id/submit_button"
             android:layout_width="150dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="46dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:textStyle="italic"
+            android:textSize="19dp"
             android:layout_alignParentBottom="true"
-            android:textStyle="bold"
-            android:textSize="25dp"
             android:background="@drawable/background_shape"
             android:textColor="@color/white"
-            android:text="NEXT"
-            android:layout_toRightOf="@+id/previous_button"
+            android:textAllCaps="false"
+            android:text="  Next→"
             android:onClick="submitButton"
+            android:layout_toRightOf="@+id/previous_button"
             />
+
+
+
 
         </RelativeLayout>
     </ScrollView>

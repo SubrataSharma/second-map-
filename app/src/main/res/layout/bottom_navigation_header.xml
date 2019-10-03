@@ -3,20 +3,41 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_account_circle_black_24dp"/>
     <TextView
-        android:layout_below="@+id/image_view"
+        android:id="@+id/navigation_header_first_letter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="sharmasubrata45@gmail.com"
-        android:textSize="19dp"
+        android:layout_marginLeft="10dp"
+        android:text="s"
+        android:textSize="100dp"
         android:textStyle="bold"
-        android:textColor="@color/cardview_dark_background"/>
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/colorPrimaryDark"/>
+    <TextView
+        android:id="@+id/navigation_header_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="76dp"
+        android:layout_toRightOf="@+id/navigation_header_first_letter"
+        android:text="sharmasubrata45@gmail.com"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="19dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/navigation_header_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/navigation_header_first_letter"
+        android:text="sharmasubrata45@gmail.com"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="19dp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

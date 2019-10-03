@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -21,9 +23,18 @@ import com.example.maptesttwoapplication.Fragment.ActivityFragment;
 import com.example.maptesttwoapplication.Fragment.BuyerFragment;
 import com.example.maptesttwoapplication.Fragment.MapFragment;
 import com.example.maptesttwoapplication.Fragment.SellerFragment;
+import com.example.maptesttwoapplication.Model_java_class.UserData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import javax.annotation.Nullable;
 
 
 public class MapsActivity extends FragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements NavigationView.OnN
     DrawerLayout drawerLayout;
     Toolbar toolbar;
 
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
@@ -61,8 +72,29 @@ public class MapsActivity extends FragmentActivity implements NavigationView.OnN
         bottomNavigationView=findViewById(R.id.work_bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.work_fragment,new MapFragment()).commit();
+        //Header value set
+        View header = navigationView.getHeaderView(0);
+        final TextView hFirstletter = header.findViewById(R.id.navigation_header_first_letter);
+        final TextView hName = header.findViewById(R.id.navigation_header_name);
+        TextView hNameTextView =  header.findViewById(R.id.navigation_header_email);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        DocumentReference locationRef =db.collection("user_registration").document(firebaseUser.getUid());
+        locationRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(e !=null){
+                    return;
+                }
+                assert documentSnapshot != null;
+                UserData userData = documentSnapshot.toObject(UserData.class);
+                assert userData != null;
+                hFirstletter.setText(userData.getUserName().substring(0,1));
+                hName.setText(userData.getUserName());
+            }
+        });
 
-
+        hNameTextView.setText(firebaseUser.getEmail());
 
     }
 

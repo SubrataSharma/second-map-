@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maptesttwoapplication.Model_java_class.MapLocation;
@@ -41,7 +42,7 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
     private GoogleMap mMap;
     private EditText editText;
     private ImageButton imageButton;
-    private Button submit_button;
+    private TextView submit_button;
 
     Double lat = 0.0;
     Double lon =0.0;

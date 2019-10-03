@@ -4,4 +4,16 @@
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
     <string name="R8ZONE">R8ZONE</string>
+    <string-array name="service_type">
+        <item>car</item>
+        <item>truck</item>
+        <item>suv</item>
+        <item>bike</item>
+        <item>tractor</item>
+    </string-array>
+    <string name="make_an_order">Choose your services</string>
+    <string name="dialog_title">Services you can provide</string>
+    <string name="ok_label">OK</string>
+    <string name="dismiss_label">Dismiss</string>
+    <string name="clear_all_label">Clear all</string>
 </resources>

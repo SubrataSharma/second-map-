@@ -21,6 +21,17 @@
             android:layout_alignParentTop="true"
             android:background="@drawable/logo"
             />
+        <TextView
+            android:id="@+id/sign_up_option"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="italic"
+            android:textSize="15dp"
+            android:layout_below="@+id/logo"
+            android:textColor="@color/colorPrimary"
+            android:text="*we recommend not use the same email you use for user registration"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -29,7 +40,7 @@
             android:layout_marginRight="10dp"
             android:id="@+id/mechanic_company_name"
             android:hint="Company name"
-            android:layout_below="@+id/logo"
+            android:layout_below="@+id/sign_up_option"
             android:background="@drawable/background_mechanic_edittext_shape"
             android:inputType="textMultiLine"
             android:layout_marginTop="15dp"/>
@@ -56,16 +67,7 @@
             android:background="@drawable/background_mechanic_edittext_shape"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/mechanic_register_name"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/background_mechanic_edittext_shape"
-            android:id="@+id/mechanic_email"
-            android:hint="Email"
-            android:layout_marginTop="15dp"
-            android:layout_below="@+id/mechanic_contact_no"/>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -73,31 +75,33 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/background_mechanic_edittext_shape"
             android:id="@+id/mechanic_pass"
-            android:hint="password"
+            android:hint="PIN"
+            android:inputType="number"
             android:password="true"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/mechanic_email"/>
+            android:layout_below="@+id/mechanic_contact_no"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:id="@+id/mechanic_con_pass"
-            android:hint="confirm password"
+            android:hint="confirm PIN"
+            android:inputType="number"
             android:background="@drawable/background_mechanic_edittext_shape"
             android:password="true"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/mechanic_pass"/>
-        <EditText
+        <Button
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:id="@+id/mechanic_service"
             android:hint="Service type"
-            android:inputType="text"
             android:background="@drawable/background_mechanic_edittext_shape"
             android:layout_marginTop="15dp"
+            android:onClick="serviceType"
             android:layout_below="@+id/mechanic_con_pass"/>
 
         <Button
@@ -108,8 +112,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:textSize="25dp"
+            android:textSize="19dp"
             android:background="@drawable/background_shape"
             android:textColor="@color/white"
             android:text="PREVIOUS"
@@ -122,8 +125,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:textSize="25dp"
+            android:textSize="19dp"
             android:background="@drawable/background_shape"
             android:textColor="@color/white"
             android:text="SUBMIT"

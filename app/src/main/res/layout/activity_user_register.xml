@@ -27,11 +27,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:textStyle="bold"
+        android:textStyle="italic"
         android:textSize="15dp"
         android:layout_below="@+id/user_register_logo"
         android:textColor="@color/colorPrimary"
-        android:text="please do not use the same email you use for mechanic registration *"/>
+        android:text="*please do not use the same email you use for mechanic registration"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -93,8 +93,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:textStyle="bold"
-        android:textSize="25dp"
+        android:textSize="19dp"
         android:layout_below="@+id/user_registration_con_pass"
         android:background="@drawable/background_shape"
         android:textColor="@color/white"

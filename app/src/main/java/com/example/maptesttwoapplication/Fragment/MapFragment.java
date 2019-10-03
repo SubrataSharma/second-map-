@@ -57,6 +57,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -64,6 +66,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
 
     private static final String TAG = "Map fragment";
+    private String serviceChoice;
 
 
     private GoogleMap mMap;
@@ -75,6 +78,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         ActionBarDrawerToggle toggle;
     private EditText editText;
     private Button button;
+    private CircleImageView carSearch,truckSearch,suvSearch,motorcycleSearch,tractorSearch;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -87,9 +91,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         View v = inflater.inflate(R.layout.mapfragment,container,false);
 
 
-        button = (Button) v.findViewById(R.id.get_location_button);
-        editText = (EditText) v.findViewById(R.id.get_location);
+        button =  v.findViewById(R.id.get_location_button);
+        editText =  v.findViewById(R.id.get_location);
 
+        showLocationByUserChoice(v);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,29 +151,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     return v;
 }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        locationRef.addSnapshotListener(  new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if(e !=null){
-                    return;
-                }
-                assert queryDocumentSnapshots != null;
-                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
-                    final double lat = mapLocation.getLatitude();
-                    final double lon = mapLocation.getLongitude();
-                    final LatLng custom = new LatLng(lat,lon);
-                    mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
 
-                    loadServiceActivity();
-                }
-            }
-        });
-
-    }
 
     public String getEditText() {
         String address = editText.getText().toString();
@@ -285,6 +268,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         //latitide = location.getLatitude();
         //longitude = location.getLongitude();
 
+
         lastlocation = location;
 
         if (currentUserLocationMarker != null)
@@ -300,14 +284,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
         currentUserLocationMarker = mMap.addMarker(markerOptions);
-
+        mMap.getCameraPosition();
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(12));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
 
         if (googleApiClient != null)
         {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
         }
+
 
     }
 
@@ -324,6 +309,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         {
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
+
 
     }
 
@@ -354,6 +340,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                 String document =mapLocation.getId();
                                 Intent intent =new Intent(getActivity(),ServicesActivity.class);
                                 intent.putExtra("ID",document);
+                                intent.putExtra("SERVICE",serviceChoice);
                                 startActivity(intent);
                             }
                         }
@@ -364,6 +351,152 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             }
         });
     }
+
+    private void showAllLocation(){
+        locationRef.addSnapshotListener(  new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                if(e !=null){
+                    return;
+                }
+                assert queryDocumentSnapshots != null;
+                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                    final double lat = mapLocation.getLatitude();
+                    final double lon = mapLocation.getLongitude();
+                    final LatLng custom = new LatLng(lat,lon);
+                    mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+
+                    loadServiceActivity();
+                }
+            }
+        });
+    }
+
+    private void showLocationByUserChoice(View view){
+        carSearch = view.findViewById(R.id.search_button_car);
+        truckSearch = view.findViewById(R.id.search_button_truck);
+        suvSearch = view.findViewById(R.id.search_button_suv);
+        motorcycleSearch = view.findViewById(R.id.search_button_motorcycle);
+        tractorSearch = view.findViewById(R.id.search_button_tractor);
+
+
+        carSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serviceChoice="CAR";
+                mMap.clear();
+                locationRef.whereArrayContains("services","car").get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                assert queryDocumentSnapshots != null;
+                                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                                    final double lat = mapLocation.getLatitude();
+                                    final double lon = mapLocation.getLongitude();
+                                    final LatLng custom = new LatLng(lat,lon);
+                                    mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+                                    loadServiceActivity();
+                                }
+                            }
+                        });
+            }
+        });
+        truckSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serviceChoice="TRUCK";
+                mMap.clear();
+                locationRef.whereArrayContains("services","truck").get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                assert queryDocumentSnapshots != null;
+                                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                                    final double lat = mapLocation.getLatitude();
+                                    final double lon = mapLocation.getLongitude();
+                                    final LatLng custom = new LatLng(lat,lon);
+                                    mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+
+                                    loadServiceActivity();
+                                }
+                            }
+                        });
+            }
+        });
+        suvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serviceChoice="SUV";
+                mMap.clear();
+                locationRef.whereArrayContains("services","suv").get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                assert queryDocumentSnapshots != null;
+                                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                                    final double lat = mapLocation.getLatitude();
+                                    final double lon = mapLocation.getLongitude();
+                                    final LatLng custom = new LatLng(lat,lon);
+                                    mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+
+                                    loadServiceActivity();
+                                }
+                            }
+                        });
+            }
+        });
+        motorcycleSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serviceChoice="MOTOR BIKE";
+                mMap.clear();
+                locationRef.whereArrayContains("services","bike").get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                assert queryDocumentSnapshots != null;
+                                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                                    final double lat = mapLocation.getLatitude();
+                                    final double lon = mapLocation.getLongitude();
+                                    final LatLng custom = new LatLng(lat,lon);
+                                    mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+
+                                    loadServiceActivity();
+                                }
+                            }
+                        });
+            }
+        });
+        tractorSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serviceChoice="TRACTOR";
+                mMap.clear();
+                locationRef.whereArrayContains("services","tractor").get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                assert queryDocumentSnapshots != null;
+                                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                                    final double lat = mapLocation.getLatitude();
+                                    final double lon = mapLocation.getLongitude();
+                                    final LatLng custom = new LatLng(lat,lon);
+                                    mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
+
+                                    loadServiceActivity();
+                                }
+                            }
+                        });
+            }
+        });
+    }
+
 
 }
 

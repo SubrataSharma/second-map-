@@ -1,6 +1,8 @@
 package com.example.maptesttwoapplication.Model_java_class;
 
 
+import java.util.List;
+
 public class MapLocation {
 
     private String id;
@@ -9,10 +11,9 @@ public class MapLocation {
     private String company;
     private String registerName;
     private String contactNo;
-    private String email;
-    private String password;
-    private String serviceType;
+    private int pin;
 
+    private List<String> services;
 
 
 
@@ -21,15 +22,15 @@ public class MapLocation {
 
 
     public MapLocation(String id,double latitude, double longitude, String company, String registerName,
-                       String contactNo, String email, String serviceType) {
+                       String contactNo,int pin, List<String> services) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.company = company;
         this.registerName = registerName;
         this.contactNo = contactNo;
-        this.email = email;
-        this.serviceType = serviceType;
+        this.pin=pin;
+        this.services = services;
     }
 
     public String getId() {
@@ -56,15 +57,12 @@ public class MapLocation {
         return contactNo;
     }
 
-    public String getEmail() {
-        return email;
+
+    public int getPin() {
+        return pin;
     }
 
-
-    public String getServiceType() {
-        return serviceType;
+    public List<String> getServices() {
+        return services;
     }
-
-
-
 }
