@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Activity fragment"
-        android:textSize="30dp"
-        android:layout_centerInParent="true"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/service_request_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        tools:ignore="ObsoleteLayoutParam"/>
 
-</RelativeLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

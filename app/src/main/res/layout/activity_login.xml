@@ -70,8 +70,9 @@
         android:layout_centerHorizontal="true"
         android:textStyle="italic"
         android:textSize="25dp"
+        android:background="?attr/selectableItemBackground"
         android:layout_below="@+id/user_login_submit_button"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/design_default_color_primary"
         android:text="Sign Up Here"
         android:onClick="signUpOption"/>
     </RelativeLayout>

@@ -48,4 +48,12 @@ public class MechanicDashboardActivity extends AppCompatActivity {
                 }
             };
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,MapsActivity.class));
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+
+    }
 }
+

@@ -60,8 +60,9 @@
                 android:layout_centerHorizontal="true"
                 android:textStyle="italic"
                 android:textSize="19dp"
+                android:background="?attr/selectableItemBackground"
                 android:layout_below="@+id/user_login_submit_button"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/design_default_color_primary"
                 android:text="Grow your business online by sign up your company name here"
                 android:onClick="mechanicSignUpOption"/>
         </RelativeLayout>

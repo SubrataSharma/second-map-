@@ -37,41 +37,43 @@ public class MechanicLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mechanic_login);
 
 
-
     }
 
 
     public void mechanicLoginSubmitButton(View view) {
         EditText login_pass = findViewById(R.id.mechanic_login_pass);
         String txt_password = login_pass.getText().toString();
-        final int userPin = Integer.parseInt(txt_password);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
         String userid = firebaseUser.getUid();
+        if (TextUtils.isEmpty(txt_password)) {
+            Toast.makeText(this, "please enter email & password", Toast.LENGTH_SHORT).show();
+        } else {
+            final int userPin = Integer.parseInt(txt_password);
+            DocumentReference locationRef = db.collection("company_registration").document(userid);
+            locationRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    assert documentSnapshot != null;
+                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
 
-        DocumentReference locationRef = db.collection("company_registration").document(userid);
-        locationRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                assert documentSnapshot != null;
-                MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
 
+                    assert mapLocation != null;
+                    if (userPin == mapLocation.getPin()) {
+                        Intent intent = new Intent(MechanicLoginActivity.this, MechanicDashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        Toast.makeText(MechanicLoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
 
-                assert mapLocation != null;
-                if (userPin == mapLocation.getPin()) {
-                    Intent intent = new Intent(MechanicLoginActivity.this, MechanicDashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    Toast.makeText(MechanicLoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
+                        Toast.makeText(MechanicLoginActivity.this, "Authentication failed!", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(MechanicLoginActivity.this, "Authentication failed!", Toast.LENGTH_SHORT).show();
-
+                    }
                 }
-            }
-        });
+            });
 
+        }
     }
 
     public void mechanicSignUpOption(View view) {

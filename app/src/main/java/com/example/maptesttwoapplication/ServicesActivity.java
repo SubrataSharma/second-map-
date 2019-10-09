@@ -84,6 +84,7 @@ public class ServicesActivity extends AppCompatActivity {
                         assert documentSnapshot != null;
                         UserData userData = documentSnapshot.toObject(UserData.class);
                         clientName=userData.getUserName();
+                        userName.setText(clientName);
 
                     }
                 });

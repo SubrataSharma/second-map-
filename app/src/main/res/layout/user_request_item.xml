@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+
+            <TextView
+                android:id="@+id/service_request_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:text="data"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/service_request_type"
+                android:id="@+id/service_user_name"
+                android:layout_marginLeft="40dp"
+                android:text="data"
+                android:textColor="#000"
+                android:textSize="19sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/service_user_name"
+                android:id="@+id/service_user_contact"
+                android:layout_marginLeft="40dp"
+                android:text="data"
+                android:textColor="#000"
+                android:textSize="19sp"
+                />
+
+
+            <Button
+                android:id="@+id/cancel_service_button"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:textStyle="italic"
+                android:textSize="19dp"
+                android:layout_below="@+id/service_user_contact"
+                android:background="@drawable/background_shape_cancel"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:text="cancel"
+                android:onClick="previousButton"
+                />
+
+            <Button
+                android:id="@+id/add_service_button"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="120dp"
+                android:textStyle="italic"
+                android:textSize="19dp"
+                android:layout_below="@+id/service_user_contact"
+                android:background="@drawable/background_shape_add"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:text="add"
+                android:onClick="submitButton"
+                android:layout_toRightOf="@+id/cancel_service_button"
+                />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
