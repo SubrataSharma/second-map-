@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
-    <Button
-        android:id="@+id/user_login_submit_button"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/current_service_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginBottom="10dp"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:layout_below="@+id/user_login_pass"
-        android:background="@drawable/background_shape"
-        android:textColor="@color/white"
-        android:text="SUBMIT" />
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        tools:ignore="ObsoleteLayoutParam"/>
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

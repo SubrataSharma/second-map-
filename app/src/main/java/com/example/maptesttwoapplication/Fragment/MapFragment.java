@@ -67,7 +67,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     private static final String TAG = "Map fragment";
     private String serviceChoice;
-
+    private double latitide;
+    private double longitude;
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
@@ -265,18 +266,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onLocationChanged(Location location) {
 
-        //latitide = location.getLatitude();
-        //longitude = location.getLongitude();
-
-
-        lastlocation = location;
+    lastlocation = location;
 
         if (currentUserLocationMarker != null)
         {
             currentUserLocationMarker.remove();
         }
 
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        latitide = location.getLatitude();
+        longitude = location.getLongitude();
+        LatLng latLng = new LatLng(latitide, longitude);
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -285,8 +284,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         currentUserLocationMarker = mMap.addMarker(markerOptions);
         mMap.getCameraPosition();
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
 
         if (googleApiClient != null)
         {
@@ -399,6 +397,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                     mMap.addMarker(new MarkerOptions().position(custom).title("Marker in Custom"));
                                     loadServiceActivity();
                                 }
+                                // move camera to user current location
+                                LatLng latLng= new LatLng(latitide,longitude);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+
                             }
                         });
             }
@@ -422,6 +424,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                                     loadServiceActivity();
                                 }
+                                // move camera to user current location
+                                LatLng latLng= new LatLng(latitide,longitude);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+
                             }
                         });
             }
@@ -445,6 +451,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                                     loadServiceActivity();
                                 }
+                                // move camera to user current location
+                                LatLng latLng= new LatLng(latitide,longitude);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+
                             }
                         });
             }
@@ -468,6 +478,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                                     loadServiceActivity();
                                 }
+                                // move camera to user current location
+                                LatLng latLng= new LatLng(latitide,longitude);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+
                             }
                         });
             }
@@ -491,6 +505,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                                     loadServiceActivity();
                                 }
+                                // move camera to user current location
+                                LatLng latLng= new LatLng(latitide,longitude);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+
                             }
                         });
             }

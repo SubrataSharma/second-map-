@@ -100,7 +100,7 @@ public class ServicesActivity extends AppCompatActivity {
     public void addRequestButton(View view) {
         DocumentReference serviceLocationRef =db.collection("company_deal_details").document("pending_request").collection(companyId).document(firebaseUser.getUid());
 
-        CompanyDealData companyDealData=new CompanyDealData(clientName,serviceChoice,firebaseUser.getEmail());
+        CompanyDealData companyDealData=new CompanyDealData(clientName,serviceChoice,firebaseUser.getEmail(),firebaseUser.getUid());
         serviceLocationRef.set(companyDealData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

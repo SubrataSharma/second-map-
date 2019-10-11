@@ -2,25 +2,25 @@ package com.example.maptesttwoapplication.Model_java_class;
 
 
 
-public class CompanyDealData {
+public class ServiceListData {
     private String userName;
     private String serviceType;
     private String contact;
     private String userId;
+    private String serviceTime;
 
-
-    public CompanyDealData() {
+    public ServiceListData() {
     }
 
-
-
-    public CompanyDealData(String userName, String serviceType, String contact, String userId) {
+    public ServiceListData(String userName, String serviceType, String contact, String userId, String serviceTime) {
         this.userName = userName;
         this.serviceType = serviceType;
         this.contact = contact;
         this.userId = userId;
-
+        this.serviceTime = serviceTime;
     }
+
+
 
     public String getUserName() {
         return userName;
@@ -54,4 +54,11 @@ public class CompanyDealData {
         this.userId = userId;
     }
 
+    public String getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(String serviceTime) {
+        this.serviceTime = serviceTime;
+    }
 }

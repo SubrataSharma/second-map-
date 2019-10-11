@@ -16,7 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maptesttwoapplication.Model_java_class.CompanyDealData;
+import com.example.maptesttwoapplication.Model_java_class.ServiceListData;
 import com.example.maptesttwoapplication.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 import java.util.List;
@@ -24,9 +31,13 @@ import java.util.List;
 
 public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAdapter.ViewHolder> {
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
     private Context mContext;
     private List<CompanyDealData> mUsers;
     private String date_time = "";
+    private String service_date;
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -56,15 +67,11 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
         holder.service_type.setText(companyDealData.getServiceType());
         holder.service_user.setText(companyDealData.getUserName());
         holder.user_contact.setText(companyDealData.getContact());
+
         holder.addService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "add service"+companyDealData.getUserName(), Toast.LENGTH_SHORT).show();
-
-
-                datePicker(view);
-
-
+                datePicker(companyDealData);
 
             }
         });
@@ -72,15 +79,26 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
         holder.cancelService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "cancel service"+companyDealData.getUserName(), Toast.LENGTH_SHORT).show();
+                db.collection("company_deal_details").document("pending_request")
+                        .collection(firebaseUser.getUid()).document(companyDealData.getUserId()).delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(mContext, "service canceled", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
         return mUsers.size();
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView service_type,service_user,user_contact;
@@ -96,7 +114,7 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
             cancelService = itemView.findViewById(R.id.cancel_service_button);
         }
     }
-    private void datePicker(View view){
+    private void datePicker(final CompanyDealData companyDealData){
 
         // Get Current Date
         final Calendar c = Calendar.getInstance();
@@ -104,28 +122,28 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(),
+        DatePickerDialog datePickerDialog = new DatePickerDialog(mContext,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
                     public void onDateSet(DatePicker view, int year,int monthOfYear, int dayOfMonth) {
 
                         date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                        //*************Call Time Picker Here ********************
-                        timePicker(view);
+                        timePicker(companyDealData);
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
+
     }
 
-    private void timePicker(View view){
+    private void timePicker(final CompanyDealData companyDealData){
         // Get Current Time
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
 
         // Launch Time Picker Dialog
-        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(),
+        TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,
                 new TimePickerDialog.OnTimeSetListener() {
 
                     @Override
@@ -135,10 +153,26 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
                         mMinute = minute;
 
                         //et_show_date_time.setText(date_time+" "+hourOfDay + ":" + minute);
-                        Toast.makeText(mContext, ""+date_time+" "+hourOfDay + ":" + minute, Toast.LENGTH_SHORT).show();
+                       service_date = "date: "+date_time+" time: "+hourOfDay + ":" + minute;
+
+                        addServiceData(companyDealData);
+
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
+    }
+
+    private void addServiceData(CompanyDealData companyDealData){
+
+        DocumentReference serviceListReference = db.collection("company_deal_details").document("service_list")
+                .collection(firebaseUser.getUid()).document(companyDealData.getUserId());
+        ServiceListData serviceListData = new ServiceListData(companyDealData.getUserName(),companyDealData.getServiceType(),companyDealData.getContact(),companyDealData.getUserId(),service_date);
+        serviceListReference.set(serviceListData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(mContext, "date added", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

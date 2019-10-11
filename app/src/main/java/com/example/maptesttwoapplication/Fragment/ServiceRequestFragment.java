@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,6 @@ import com.example.maptesttwoapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -56,11 +54,14 @@ public class ServiceRequestFragment extends Fragment {
     }
 
     private void loadRecyclerViewData() {
-       CollectionReference serviceLocationRef =db.collection("company_deal_details").document("pending_request").collection(firebaseUser.getUid());
+       CollectionReference serviceLocationRef =db.collection("company_deal_details")
+               .document("pending_request").collection(firebaseUser.getUid());
 
         serviceLocationRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                requestList.clear();
+                assert queryDocumentSnapshots != null;
                 for(QueryDocumentSnapshot documentSnapshot:queryDocumentSnapshots){
                     CompanyDealData companyDealData = documentSnapshot.toObject(CompanyDealData.class);
                     requestList.add(companyDealData);
