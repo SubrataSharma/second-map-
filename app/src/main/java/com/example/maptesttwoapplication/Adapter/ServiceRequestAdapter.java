@@ -16,14 +16,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maptesttwoapplication.Model_java_class.CompanyDealData;
+import com.example.maptesttwoapplication.Model_java_class.MapLocation;
 import com.example.maptesttwoapplication.Model_java_class.ServiceListData;
 import com.example.maptesttwoapplication.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.Calendar;
 import java.util.List;
@@ -38,6 +43,9 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
     private List<CompanyDealData> mUsers;
     private String date_time = "";
     private String service_date;
+    private String company_name;
+    private String company_contact_no;
+
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -162,15 +170,53 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
         timePickerDialog.show();
     }
 
-    private void addServiceData(CompanyDealData companyDealData){
+    private void addServiceData(final CompanyDealData companyDealData){
 
         DocumentReference serviceListReference = db.collection("company_deal_details").document("service_list")
                 .collection(firebaseUser.getUid()).document(companyDealData.getUserId());
-        ServiceListData serviceListData = new ServiceListData(companyDealData.getUserName(),companyDealData.getServiceType(),companyDealData.getContact(),companyDealData.getUserId(),service_date);
+        ServiceListData serviceListData = new ServiceListData(companyDealData.getUserName()
+                ,companyDealData.getServiceType(),companyDealData.getContact(),companyDealData.getUserId(),service_date,true);
         serviceListReference.set(serviceListData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(mContext, "date added", Toast.LENGTH_SHORT).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(mContext, "sorry something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        DocumentReference serviceCompanyNameRef =db.collection("company_registration").document(firebaseUser.getUid());
+
+        serviceCompanyNameRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@androidx.annotation.Nullable DocumentSnapshot documentSnapshot, @androidx.annotation.Nullable FirebaseFirestoreException e) {
+                assert documentSnapshot != null;
+                MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+
+                assert mapLocation != null;
+                company_name=mapLocation.getCompany();
+                company_contact_no=mapLocation.getContactNo();
+                addDataUserActivity(companyDealData,company_name,company_contact_no);
+
+            }
+        });
+
+
+    }
+
+    private void addDataUserActivity(CompanyDealData companyDealData,String company_name,String company_contact_no){
+
+        DocumentReference userActivityListReference = db.collection("user_activity").document(companyDealData.getUserId());
+        ServiceListData userActivityListData = new ServiceListData(companyDealData.getUserName()
+                ,companyDealData.getServiceType(),firebaseUser.getEmail(),companyDealData.getUserId(),service_date,company_name,company_contact_no,true);
+        userActivityListReference.set(userActivityListData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(mContext, "user has been notified", Toast.LENGTH_SHORT).show();
             }
         });
     }

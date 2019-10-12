@@ -9,6 +9,7 @@ public class CompanyDealData {
     private String userId;
 
 
+
     public CompanyDealData() {
     }
 

@@ -6,8 +6,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginTop="7dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,23 +19,21 @@
                 android:id="@+id/service_request_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="16dp"
                 android:text="data"
                 android:textStyle="bold"
                 android:textColor="#000"
-                android:textSize="25sp" />
+                android:textSize="19sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/service_request_type"
                 android:id="@+id/service_user_name"
-                android:layout_marginLeft="40dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="16dp"
                 android:text="data"
                 android:textColor="#000"
-                android:textSize="19sp"
+                android:textSize="16sp"
                 />
 
             <TextView
@@ -44,11 +41,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/service_user_name"
                 android:id="@+id/service_user_contact"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginBottom="10dp"
                 android:text="data"
                 android:textColor="#000"
-                android:textSize="19sp"
+                android:textSize="16sp"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -59,7 +56,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="data"
                 android:textColor="@color/design_default_color_primary"
-                android:textSize="19sp"
+                android:textSize="16sp"
                 />
 
 
@@ -71,7 +68,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:textStyle="italic"
-                android:textSize="19dp"
+                android:textSize="16sp"
                 android:layout_below="@+id/service_user_time"
                 android:background="@drawable/background_shape_add"
                 android:textColor="@color/white"

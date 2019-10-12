@@ -100,11 +100,14 @@ public class ServicesActivity extends AppCompatActivity {
     public void addRequestButton(View view) {
         DocumentReference serviceLocationRef =db.collection("company_deal_details").document("pending_request").collection(companyId).document(firebaseUser.getUid());
 
+
         CompanyDealData companyDealData=new CompanyDealData(clientName,serviceChoice,firebaseUser.getEmail(),firebaseUser.getUid());
         serviceLocationRef.set(companyDealData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(ServicesActivity.this, "service request added", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ServicesActivity.this,MapsActivity.class));
+                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
 
             }
         });

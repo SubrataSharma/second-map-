@@ -1,127 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ServicesActivity">
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/company_name_card_view"
-        android:layout_centerHorizontal="true">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/service_company_name"
 
-        android:textSize="19dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"
-        android:text="company name"/>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/owner_name_card_view"
-        android:layout_below="@+id/company_name_card_view"
-        android:layout_marginTop="10dp">
+
         <TextView
+            android:id="@+id/service_company_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="company name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+
+        <TextView
             android:id="@+id/owner_name"
-            android:layout_centerInParent="true"
-            android:textSize="19dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="owner of the company"/>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/contact_no_card_view"
-        android:layout_below="@+id/owner_name_card_view"
-        android:layout_marginTop="10dp">
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/contact_no"
-            android:layout_centerInParent="true"
-            android:textSize="19dp"
+            android:layout_marginStart="16dp"
+            android:layout_below="@+id/service_company_name"
+            android:text="owner of the company"
             android:textColor="@color/colorPrimaryDark"
-            android:text="owner of the company"/>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/contact_no"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/email_card_view"
-            android:layout_below="@+id/contact_no_card_view"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/email"
-                android:layout_centerInParent="true"
-                android:textSize="19dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="owner of the company"/>
-        </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_below="@+id/owner_name"
+            android:text="owner of the company"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/user_name_card_view"
-            android:layout_below="@+id/email_card_view"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/user_name"
-                android:layout_centerInParent="true"
-                android:textSize="19dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="owner of the company"/>
-        </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_below="@id/contact_no"
+            android:text="owner of the company"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/service_type_card_view"
-            android:layout_below="@+id/user_name_card_view"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/service_test"
-                android:layout_centerInParent="true"
-                android:textSize="19dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="owner of the company"/>
-        </androidx.cardview.widget.CardView>
+            android:layout_marginStart="16dp"
+            android:layout_below="@+id/email"
+            android:text="owner of the company"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/service_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_below="@id/user_name"
+            android:text="owner of the company"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp" />
+
     <Button
         android:id="@+id/previous_button"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="19dp"
+        android:layout_below="@+id/mechanic_service"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/background_shape"
-        android:textColor="@color/white"
-        android:text="cancel"
         android:onClick="cancelButton"
-        android:layout_below="@+id/mechanic_service"/>
+        android:text="cancel"
+        android:textColor="@color/white"
+        android:textSize="16dp" />
 
     <Button
         android:id="@+id/submit_button"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="19dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/background_shape"
-        android:textColor="@color/white"
-        android:text="add service"
-        android:onClick="addRequestButton"
         android:layout_below="@+id/mechanic_service"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
         android:layout_toRightOf="@+id/previous_button"
-        />
+        android:background="@drawable/background_shape"
+        android:onClick="addRequestButton"
+        android:text="add service"
+        android:textColor="@color/white"
+        android:textSize="16dp" />
 
 
 </RelativeLayout>
