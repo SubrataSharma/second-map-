@@ -398,8 +398,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                     loadServiceActivity();
                                 }
                                 // move camera to user current location
-                                LatLng latLng= new LatLng(latitide,longitude);
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+                                //LatLng latLng= new LatLng(latitide,longitude);
+                                //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
 
                             }
                         });
@@ -425,8 +425,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                     loadServiceActivity();
                                 }
                                 // move camera to user current location
-                                LatLng latLng= new LatLng(latitide,longitude);
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+                                //LatLng latLng= new LatLng(latitide,longitude);
+                                //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
 
                             }
                         });
@@ -452,8 +452,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                     loadServiceActivity();
                                 }
                                 // move camera to user current location
-                                LatLng latLng= new LatLng(latitide,longitude);
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+                                //LatLng latLng= new LatLng(latitide,longitude);
+                                //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
 
                             }
                         });
@@ -479,8 +479,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                     loadServiceActivity();
                                 }
                                 // move camera to user current location
-                                LatLng latLng= new LatLng(latitide,longitude);
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+                                //LatLng latLng= new LatLng(latitide,longitude);
+                                //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
 
                             }
                         });
@@ -506,8 +506,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                     loadServiceActivity();
                                 }
                                 // move camera to user current location
-                                LatLng latLng= new LatLng(latitide,longitude);
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+                                //LatLng latLng= new LatLng(latitide,longitude);
+                                //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
 
                             }
                         });

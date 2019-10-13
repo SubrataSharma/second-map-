@@ -86,8 +86,8 @@ public class MechanicRegistrationActivity extends AppCompatActivity implements O
                                 userMarkerOptions.title(getEditText());
                                 userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
                                 mMap.addMarker(userMarkerOptions);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+
                             }
                         }
                         else

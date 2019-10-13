@@ -93,7 +93,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:textSize="19dp"
+        android:textSize="16sp"
         android:layout_below="@+id/user_registration_con_pass"
         android:background="@drawable/background_shape"
         android:textColor="@color/white"

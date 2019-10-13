@@ -8,7 +8,7 @@
         android:id="@+id/service_request_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
+        android:background="@color/ass"
         tools:ignore="ObsoleteLayoutParam"/>
 
 

@@ -1,6 +1,6 @@
 package com.example.maptesttwoapplication;
 
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,10 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.maptesttwoapplication.Model_java_class.MapLocation;
-import com.example.maptesttwoapplication.Model_java_class.UserData;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -47,29 +43,36 @@ public class MechanicLoginActivity extends AppCompatActivity {
         assert firebaseUser != null;
         String userid = firebaseUser.getUid();
         if (TextUtils.isEmpty(txt_password)) {
-            Toast.makeText(this, "please enter email & password", Toast.LENGTH_SHORT).show();
-        } else {
+            Toast.makeText(this, "please enter your PIN", Toast.LENGTH_SHORT).show();
+
+        }
+        else {
             final int userPin = Integer.parseInt(txt_password);
             DocumentReference locationRef = db.collection("company_registration").document(userid);
             locationRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     assert documentSnapshot != null;
-                    MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
+                    if(documentSnapshot.exists()){
+                        MapLocation mapLocation = documentSnapshot.toObject(MapLocation.class);
 
+                        assert mapLocation != null;
+                        if (userPin == mapLocation.getPin()) {
+                            Intent intent = new Intent(MechanicLoginActivity.this, MechanicDashboardActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            Toast.makeText(MechanicLoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
 
-                    assert mapLocation != null;
-                    if (userPin == mapLocation.getPin()) {
-                        Intent intent = new Intent(MechanicLoginActivity.this, MechanicDashboardActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        Toast.makeText(MechanicLoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
+                            Toast.makeText(MechanicLoginActivity.this, "Authentication failed! incorrect PIN", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(MechanicLoginActivity.this, "Authentication failed!", Toast.LENGTH_SHORT).show();
-
+                        }
+                    }else {
+                        Toast.makeText(MechanicLoginActivity.this, "please register and get your PIN", Toast.LENGTH_SHORT).show();
                     }
+
+
                 }
             });
 

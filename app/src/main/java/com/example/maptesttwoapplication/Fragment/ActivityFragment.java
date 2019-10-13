@@ -59,17 +59,18 @@ public class ActivityFragment extends Fragment {
 
     private void loadRecyclerViewData() {
 
-        DocumentReference serviceLocationRef =db.collection("user_activity")
-                .document(firebaseUser.getUid());
+        CollectionReference serviceLocationRef =db.collection("user_activity")
+                .document(firebaseUser.getUid()).collection("user_activity_data");
 
-        serviceLocationRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        serviceLocationRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
-                assert documentSnapshot != null;
-                ServiceListData serviceListData = documentSnapshot.toObject(ServiceListData.class);
-                serviceList.add(serviceListData);
-
+                assert queryDocumentSnapshots != null;
+                for(QueryDocumentSnapshot documentSnapshot:queryDocumentSnapshots){
+                    ServiceListData serviceListData = documentSnapshot.toObject(ServiceListData.class);
+                    serviceList.add(serviceListData);
+                }
 
                 userActivityAdapter = new UserActivityAdapter(serviceList, getContext());
                 recyclerView.setAdapter(userActivityAdapter);

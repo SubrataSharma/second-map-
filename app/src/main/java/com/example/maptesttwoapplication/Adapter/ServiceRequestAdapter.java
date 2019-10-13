@@ -210,7 +210,8 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
 
     private void addDataUserActivity(CompanyDealData companyDealData,String company_name,String company_contact_no){
 
-        DocumentReference userActivityListReference = db.collection("user_activity").document(companyDealData.getUserId());
+        DocumentReference userActivityListReference = db.collection("user_activity").document(companyDealData.getUserId())
+                .collection("user_activity_data").document(firebaseUser.getUid());
         ServiceListData userActivityListData = new ServiceListData(companyDealData.getUserName()
                 ,companyDealData.getServiceType(),firebaseUser.getEmail(),companyDealData.getUserId(),service_date,company_name,company_contact_no,true);
         userActivityListReference.set(userActivityListData).addOnSuccessListener(new OnSuccessListener<Void>() {

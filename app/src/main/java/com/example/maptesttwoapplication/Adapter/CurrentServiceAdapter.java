@@ -199,7 +199,8 @@ public class CurrentServiceAdapter extends RecyclerView.Adapter<CurrentServiceAd
 
     private void addDataUserActivity(ServiceListData serviceListData, String company_name, String company_contact_no, ViewHolder holder) {
 
-        DocumentReference userActivityListReference = db.collection("user_activity").document(serviceListData.getUserId());
+        DocumentReference userActivityListReference = db.collection("user_activity").document(serviceListData.getUserId())
+                .collection("user_activity_data").document(firebaseUser.getUid());
         ServiceListData userActivityListData = new ServiceListData(serviceListData.getUserName()
                 , serviceListData.getServiceType(), firebaseUser.getEmail(), serviceListData.getUserId()
                 , service_date, company_name, company_contact_no, false);

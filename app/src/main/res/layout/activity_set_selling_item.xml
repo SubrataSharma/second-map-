@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SetSellingItemActivity"
+    >
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/logo"
+                />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/seller_product_name"
+                android:hint="Product name"
+                android:layout_below="@+id/logo"
+                android:background="@drawable/background_mechanic_edittext_shape"
+                android:inputType="textMultiLine"
+                android:layout_marginTop="50dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/seller_name"
+                android:hint="Seller name"
+                android:background="@drawable/background_mechanic_edittext_shape"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/seller_product_name"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:id="@+id/seller_contact_no"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="contact no"
+                android:inputType="number"
+                android:background="@drawable/background_mechanic_edittext_shape"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/seller_name"/>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/seller_service_type"
+                android:hint="Selling type         "
+                android:background="@drawable/background_mechanic_edittext_shape"
+                android:layout_marginTop="15dp"
+                android:onClick="sellingType"
+                android:layout_below="@+id/seller_contact_no"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/seller_product_details"
+                android:hint="give a few details about your product"
+                android:inputType="textMultiLine"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/seller_service_type"/>
+
+            <!--<Button
+                android:id="@+id/previous_button"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="19dp"
+                android:background="@drawable/background_shape"
+                android:textColor="@color/white"
+                android:text="PREVIOUS"
+                android:onClick="previousButton"
+                android:layout_below="@+id/mechanic_service"/>-->
+
+            <Button
+                android:id="@+id/sell_button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="16sp"
+                android:background="@drawable/background_shape"
+                android:textColor="@color/white"
+                android:text="sell "
+                android:onClick="sellButton"
+                android:layout_below="@+id/seller_product_details"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

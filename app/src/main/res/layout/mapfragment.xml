@@ -21,6 +21,7 @@
         android:layout_marginTop="10dp"
         android:gravity="top"
         android:hint="Location"
+        android:inputType="textAutoCorrect"
         android:id="@+id/get_location"/>
 
     <Button
