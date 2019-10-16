@@ -1,28 +1,56 @@
 package com.example.maptesttwoapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.example.maptesttwoapplication.Model_java_class.SellerData;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
+
 
 public class SetSellingItemActivity extends AppCompatActivity {
-    EditText product_name,seller_name,seller_contact_no, seller_product_details;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
+    private EditText product_name,seller_name,seller_contact_no, seller_product_details,selling_price;
+    private ImageView mImageView;
+    private Button sellButton;
+    private ProgressBar progressBar;
     int choice;
-    List<String> allService ;
     String[] serviceListitem;
-    boolean[] serviceCheckedItems;
-    ArrayList<Integer> serviceUserSelectedItems = new ArrayList<>();
-
+    String item = "";
+    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private Uri mImageUri;
+    private StorageTask mUploadTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,20 +59,19 @@ public class SetSellingItemActivity extends AppCompatActivity {
         product_name=findViewById(R.id.seller_product_name);
         seller_name=findViewById(R.id.seller_name);
         seller_contact_no=findViewById(R.id.seller_contact_no);
+        selling_price=findViewById(R.id.seller_selling_price);
         seller_product_details=findViewById(R.id.seller_product_details);
 
+        mImageView=findViewById(R.id.seller_show_choose_file);
+        sellButton=findViewById(R.id.sell_button);
+        progressBar=findViewById(R.id.progress_circular);
+        progressBar.setVisibility(View.INVISIBLE);
+
         serviceListitem = getResources().getStringArray(R.array.selling_type);
-        serviceCheckedItems = new boolean[serviceListitem.length];
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(this,MapsActivity.class));
-        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
 
-    }
 
     public void sellingType(View view) {
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(SetSellingItemActivity.this);
@@ -53,30 +80,17 @@ public class SetSellingItemActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     choice=i;
-                    Toast.makeText(SetSellingItemActivity.this, ""+choice, Toast.LENGTH_SHORT).show();
                 }
             });
-            /*mBuilder.setMultiChoiceItems(serviceListitem, serviceCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-
-
-                }
-            });*/
-
             mBuilder.setCancelable(false);
             mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int which) {
-                    String item;
+
                     item = serviceListitem[choice];
-
-                    Toast.makeText(SetSellingItemActivity.this, item, Toast.LENGTH_SHORT).show();
-
 
                 }
             });
-
             mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -85,22 +99,108 @@ public class SetSellingItemActivity extends AppCompatActivity {
                 }
             });
 
-            mBuilder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int which) {
-                    for (int i = 0; i < serviceCheckedItems.length; i++) {
-                        serviceCheckedItems[i] = false;
-                        serviceUserSelectedItems.clear();
-                        Toast.makeText(getApplicationContext(), "select one service at least", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
 
             AlertDialog mDialog = mBuilder.create();
             mDialog.show();
 
     }
 
+
+
+    public void chooseFile(View view) {
+        openFileChooser();
+    }
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+
+            Picasso.get().load(mImageUri).into(mImageView);
+        }
+
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
     public void sellButton(View view) {
+        if (mUploadTask != null && mUploadTask.isInProgress()) {
+            Toast.makeText(getApplicationContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
+        }else if(item.isEmpty()){
+            sellingType(view);
+        }
+        else {
+            uploadFile(item);
+            sellButton.setEnabled(false);
+        }
+
+    }
+
+    private void uploadFile(final String item) {
+
+
+        progressBar.setVisibility(View.VISIBLE);
+        final DocumentReference documentReference=firebaseFirestore.collection("Seller_Data")
+                .document("new_item").collection(firebaseUser.getUid()).document();
+
+        if (mImageUri != null) {
+            StorageReference fileReference = firebaseStorage.getReference("Seller_Data")
+                    .child("new_item").child(firebaseUser.getUid()).child(System.currentTimeMillis()
+                            + "." + getFileExtension(mImageUri));
+
+            mUploadTask = fileReference.putFile(mImageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.INVISIBLE);
+
+                                }
+                            }, 500);
+                            Toast.makeText(SetSellingItemActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                            SellerData sellerData =new SellerData(product_name.getText().toString(),seller_name.getText().toString()
+                            ,seller_contact_no.getText().toString(),selling_price.getText().toString(),item, Objects.requireNonNull(Objects.requireNonNull(taskSnapshot
+                            .getMetadata()).getReference()).getDownloadUrl().toString(),seller_product_details.getText().toString());
+
+                            documentReference.set(sellerData);
+                            startActivity(new Intent(SetSellingItemActivity.this,MapsActivity.class));
+                            overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,MapsActivity.class));
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+
     }
 }

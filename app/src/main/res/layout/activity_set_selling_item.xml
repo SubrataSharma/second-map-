@@ -57,6 +57,17 @@
                 android:background="@drawable/background_mechanic_edittext_shape"
                 android:layout_marginTop="15dp"
                 android:layout_below="@+id/seller_name"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:id="@+id/seller_selling_price"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="add a price"
+                android:inputType="number"
+                android:background="@drawable/background_mechanic_edittext_shape"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/seller_contact_no"/>
 
 
             <Button
@@ -69,7 +80,28 @@
                 android:background="@drawable/background_mechanic_edittext_shape"
                 android:layout_marginTop="15dp"
                 android:onClick="sellingType"
-                android:layout_below="@+id/seller_contact_no"/>
+                android:layout_below="@+id/seller_selling_price"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/seller_choose_pic"
+                android:hint="Choose file...        "
+                android:background="@drawable/background_mechanic_edittext_shape"
+                android:layout_marginTop="15dp"
+                android:onClick="chooseFile"
+                android:layout_below="@+id/seller_service_type"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/seller_show_choose_file"
+                android:hint="give a few details about your product"
+                android:inputType="textMultiLine"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/seller_choose_pic"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -79,7 +111,7 @@
                 android:hint="give a few details about your product"
                 android:inputType="textMultiLine"
                 android:layout_marginTop="15dp"
-                android:layout_below="@+id/seller_service_type"/>
+                android:layout_below="@+id/seller_show_choose_file"/>
 
             <!--<Button
                 android:id="@+id/previous_button"
@@ -100,7 +132,7 @@
                 android:id="@+id/sell_button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:textSize="16sp"
                 android:background="@drawable/background_shape"
@@ -110,7 +142,13 @@
                 android:layout_below="@+id/seller_product_details"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
+
         </RelativeLayout>
     </ScrollView>
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

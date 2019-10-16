@@ -31,7 +31,6 @@ public class SellerFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "working", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(), SetSellingItemActivity.class));
             }
         });
