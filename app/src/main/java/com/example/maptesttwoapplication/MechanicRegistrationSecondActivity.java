@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -31,19 +32,24 @@ import java.util.List;
 
 public class MechanicRegistrationSecondActivity extends AppCompatActivity {
 
-    EditText company_name,register_name,contact_no, pass, con_pass;
+    EditText company_name,register_name,contact_no, pass, con_pass,about_company
+            ,service_process,owner_word;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser firebaseUser;
     List<String> allService ;
     String[] serviceListitem;
     boolean[] serviceCheckedItems;
+    private ProgressBar progressBar;
     ArrayList<Integer> serviceUserSelectedItems = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mechanic_registration_second);
         serviceListitem = getResources().getStringArray(R.array.service_type);
         serviceCheckedItems = new boolean[serviceListitem.length];
+        progressBar=findViewById(R.id.progress_circular);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     public void serviceType(View view) {
@@ -54,7 +60,6 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
 
                 if(isChecked){
-                    Toast.makeText(getApplicationContext(), " "+position, Toast.LENGTH_SHORT).show();
                     serviceUserSelectedItems.add(position);
                 }else{
                     serviceUserSelectedItems.remove((Integer.valueOf(position)));
@@ -102,11 +107,15 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
     }
 
     public void submitButton(View view) {
+        progressBar.setVisibility(View.VISIBLE);
         company_name=findViewById(R.id.mechanic_company_name);
         register_name=findViewById(R.id.mechanic_register_name);
         contact_no=findViewById(R.id.mechanic_contact_no);
         pass=findViewById(R.id.mechanic_pass);
         con_pass=findViewById(R.id.mechanic_con_pass);
+        about_company=findViewById(R.id.about_company_detail);
+        service_process=findViewById(R.id.service_process_detail);
+        owner_word=findViewById(R.id.owner_word_detail);
         String company= company_name.getText().toString();
         String registerName= register_name.getText().toString();
         String contactNo= contact_no.getText().toString();
@@ -114,14 +123,21 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
         String conPin= con_pass.getText().toString();
          double lat =  getIntent().getExtras().getDouble("latitude");
          double lon =  getIntent().getExtras().getDouble("longitude");
+        String aboutCompany= about_company.getText().toString();
+        String serviceProcess= service_process.getText().toString();
+        String ownerWord= owner_word.getText().toString();
 
-         if(company.isEmpty()||(lat==0)||(lon==0)||registerName.isEmpty()||contactNo.isEmpty()
-                 ||pin.isEmpty()||conPin.isEmpty()||allService.isEmpty()){
+        if(company.isEmpty()||(lat==0)||(lon==0)||registerName.isEmpty()||contactNo.isEmpty()
+                 ||pin.isEmpty()||conPin.isEmpty()||allService.isEmpty()||aboutCompany.isEmpty()
+                ||serviceProcess.isEmpty()||ownerWord.isEmpty()){
+            progressBar.setVisibility(View.INVISIBLE);
              Toast.makeText(this, "All fields are requires", Toast.LENGTH_SHORT).show();
          }else if(pin.length() < 6){
-             Toast.makeText(this, "Password must be at least 6 digits", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(this, "Password must be at least 6 digits", Toast.LENGTH_SHORT).show();
          }else if(!pin.equals(conPin)) {
-             Toast.makeText(this, "please enter the same password again", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(this, "please enter the same password again", Toast.LENGTH_SHORT).show();
              //register(txt_username,txt_email,txt_password);
          }else {
              firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -130,11 +146,13 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
 
                  DocumentReference locationRef =db.collection("company_registration").document(userid);
                  MapLocation mapLocation = new MapLocation(userid,lat, lon, company,
-                         registerName,contactNo,Integer.parseInt(pin),allService);
+                         registerName,contactNo,Integer.parseInt(pin),allService
+                         ,aboutCompany,serviceProcess,ownerWord);
                  locationRef.set(mapLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
                      @Override
                      public void onComplete(@NonNull Task<Void> task) {
                          if(task.isSuccessful()){
+                             progressBar.setVisibility(View.INVISIBLE);
                              Intent intent = new Intent(MechanicRegistrationSecondActivity.this,MapsActivity.class);
                              Toast.makeText(MechanicRegistrationSecondActivity.this,"successfully registered",Toast.LENGTH_LONG).show();
                              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -145,6 +163,7 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
                  }).addOnFailureListener(new OnFailureListener() {
                      @Override
                      public void onFailure(@NonNull Exception e) {
+                         progressBar.setVisibility(View.INVISIBLE);
                          Toast.makeText(MechanicRegistrationSecondActivity.this,"you can't register",Toast.LENGTH_LONG).show();
                          finish();
                      }

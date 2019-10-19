@@ -60,14 +60,26 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:id="@+id/seller_selling_price"
+                android:id="@+id/seller_contact_detail"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:hint="add a price"
-                android:inputType="number"
+                android:hint="Address"
+                android:inputType="textMultiLine"
                 android:background="@drawable/background_mechanic_edittext_shape"
                 android:layout_marginTop="15dp"
                 android:layout_below="@+id/seller_contact_no"/>
+
+            <EditText
+                android:id="@+id/seller_selling_price"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@+id/seller_contact_detail"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_mechanic_edittext_shape"
+                android:hint="add a price"
+                android:inputType="number" />
 
 
             <Button

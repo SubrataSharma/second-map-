@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginStart="7sp"
+                android:layout_marginEnd="7sp"
+                android:layout_marginTop="7sp"
+                android:id="@+id/seller_product_image"
+                android:background="@mipmap/ic_launcher"
+              />
+
+            <TextView
+                android:id="@+id/seller_price_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/seller_product_image"
+                android:layout_marginStart="16dp"
+                android:text="data"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/seller_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/seller_price_data"
+                android:layout_marginStart="16dp"
+                android:text="data"
+                android:textColor="#000"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

@@ -10,10 +10,11 @@
             android:id="@+id/service_company_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginTop="20sp"
+            android:layout_centerHorizontal="true"
             android:text="company name"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp"
+            android:textSize="19sp"
             android:textStyle="bold" />
 
 
@@ -21,51 +22,88 @@
             android:id="@+id/owner_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginTop="10sp"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/service_company_name"
-            android:text="owner of the company"
+            android:text="Reg name"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/contact_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/owner_name"
-            android:text="owner of the company"
+            android:text="company number"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp" />
+            android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/about_company_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
             android:layout_marginStart="16dp"
             android:layout_below="@id/contact_no"
-            android:text="owner of the company"
+            android:text="About Company :"
+            android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp" />
-
+            android:textSize="15sp" />
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/about_company"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
             android:layout_marginStart="16dp"
-            android:layout_below="@+id/email"
-            android:text="owner of the company"
+            android:layout_below="@id/about_company_text"
+            android:text="text"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp" />
+            android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/service_test"
+            android:id="@+id/service_process_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
             android:layout_marginStart="16dp"
-            android:layout_below="@id/user_name"
-            android:text="owner of the company"
+            android:layout_below="@+id/about_company"
+            android:text="service process detail :"
+            android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp" />
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/service_process"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_below="@+id/service_process_text"
+            android:text="text"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/owner_word_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_below="@id/service_process"
+            android:text="some word from owner :"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/owner_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_below="@id/owner_word_text"
+            android:text="text"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp" />
 
     <!--<Button
         android:id="@+id/previous_button"
@@ -83,7 +121,7 @@
     <Button
         android:id="@+id/submit_button"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"

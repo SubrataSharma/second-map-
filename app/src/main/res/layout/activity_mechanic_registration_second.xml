@@ -21,17 +21,7 @@
             android:layout_alignParentTop="true"
             android:background="@drawable/logo"
             />
-        <TextView
-            android:id="@+id/sign_up_option"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
-            android:textStyle="italic"
-            android:textSize="15dp"
-            android:layout_below="@+id/logo"
-            android:textColor="@color/colorPrimary"
-            android:text="*we recommend not use the same email you use for user registration"/>
+
 
         <EditText
             android:layout_width="match_parent"
@@ -40,10 +30,10 @@
             android:layout_marginRight="10dp"
             android:id="@+id/mechanic_company_name"
             android:hint="Company name"
-            android:layout_below="@+id/sign_up_option"
+            android:layout_below="@+id/logo"
             android:background="@drawable/background_mechanic_edittext_shape"
             android:inputType="textMultiLine"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="30sp"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -103,6 +93,20 @@
             android:layout_marginTop="15dp"
             android:onClick="serviceType"
             android:layout_below="@+id/mechanic_con_pass"/>
+        <TextView
+            android:id="@+id/few_suggestion_word"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="italic"
+            android:textSize="15dp"
+            android:layout_below="@+id/mechanic_service"
+            android:textColor="@color/colorPrimary"
+            android:text="* remember the more detail you give,
+chances are costumers are going to
+ take the service from your company."
+            />
 
         <!--<Button
             android:id="@+id/previous_button"
@@ -118,22 +122,57 @@
             android:text="PREVIOUS"
             android:onClick="previousButton"
             android:layout_below="@+id/mechanic_service"/>-->
+        <EditText
+            android:id="@+id/about_company_detail"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:hint="Tell us about your company in few line"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/few_suggestion_word"/>
+        <EditText
+            android:id="@+id/service_process_detail"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:hint="Tell us about your company service process in few line"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/about_company_detail"/>
+        <EditText
+            android:id="@+id/owner_word_detail"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:hint="Tell something to our costumers in your word"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/service_process_detail"/>
 
         <Button
             android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="10dp"
             android:textSize="16sp"
             android:background="@drawable/background_shape"
             android:textColor="@color/white"
             android:text="SUBMIT"
             android:onClick="submitButton"
-            android:layout_below="@+id/mechanic_service"
+            android:layout_below="@+id/owner_word_detail"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"/>
         </RelativeLayout>
         </ScrollView>
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
 
 </RelativeLayout>

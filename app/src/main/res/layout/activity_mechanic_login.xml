@@ -15,7 +15,7 @@
                 android:id="@+id/mechanic_login_logo"
                 android:layout_width="170dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="125dp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:background="@drawable/logo"
@@ -24,12 +24,12 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="55dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/background_edittext_shape"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="125dp"
                 android:gravity="top"
                 android:inputType="number"
                 android:layout_centerHorizontal="true"
@@ -39,7 +39,7 @@
             <Button
                 android:id="@+id/user_login_submit_button"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="170dp"
                 android:layout_marginTop="20dp"
@@ -51,21 +51,21 @@
                 android:text="Login"
                 android:textAllCaps="false"
                 android:onClick="mechanicLoginSubmitButton"/>
+            <TextView
+                android:id="@+id/sign_up_option"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="290dp"
+                android:layout_centerHorizontal="true"
+                android:textStyle="italic"
+                android:layout_below="@+id/user_login_submit_button"
+                android:textSize="15sp"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Grow your business online by sign up your company name here"
+                android:onClick="mechanicSignUpOption"/>
 
         </RelativeLayout>
     </ScrollView>
-    <TextView
-        android:id="@+id/sign_up_option"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textStyle="italic"
-        android:textSize="19dp"
-        android:background="?attr/selectableItemBackground"
-        android:textColor="@color/design_default_color_primary"
-        android:text="Grow your business online by sign up your company name here"
-        android:onClick="mechanicSignUpOption"/>
 
 </RelativeLayout>

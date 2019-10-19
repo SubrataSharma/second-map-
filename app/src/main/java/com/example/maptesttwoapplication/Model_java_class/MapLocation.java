@@ -14,6 +14,9 @@ public class MapLocation {
     private int pin;
 
     private List<String> services;
+    private String about_company;
+    private String service_process;
+    private String owner_word;
 
 
 
@@ -21,16 +24,21 @@ public class MapLocation {
     }
 
 
-    public MapLocation(String id,double latitude, double longitude, String company, String registerName,
-                       String contactNo,int pin, List<String> services) {
+
+    public MapLocation(String id, double latitude, double longitude, String company, String registerName
+            , String contactNo, int pin, List<String> services, String about_company, String service_process
+            , String owner_word) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.company = company;
         this.registerName = registerName;
         this.contactNo = contactNo;
-        this.pin=pin;
+        this.pin = pin;
         this.services = services;
+        this.about_company = about_company;
+        this.service_process = service_process;
+        this.owner_word = owner_word;
     }
 
     public String getId() {
@@ -64,5 +72,61 @@ public class MapLocation {
 
     public List<String> getServices() {
         return services;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setRegisterName(String registerName) {
+        this.registerName = registerName;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public void setPin(int pin) {
+        this.pin = pin;
+    }
+
+    public void setServices(List<String> services) {
+        this.services = services;
+    }
+
+    public String getAbout_company() {
+        return about_company;
+    }
+
+    public void setAbout_company(String about_company) {
+        this.about_company = about_company;
+    }
+
+    public String getService_process() {
+        return service_process;
+    }
+
+    public void setService_process(String service_process) {
+        this.service_process = service_process;
+    }
+
+    public String getOwner_word() {
+        return owner_word;
+    }
+
+    public void setOwner_word(String owner_word) {
+        this.owner_word = owner_word;
     }
 }

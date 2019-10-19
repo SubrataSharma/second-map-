@@ -3,9 +3,11 @@ package com.example.maptesttwoapplication.Fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -102,8 +104,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
                 List<Address> addressList = null;
                 MarkerOptions userMarkerOptions = new MarkerOptions();
+                if(getEditText().equals("programmer name")){
+                    Toast.makeText(getContext(), "Hii my name is SUBRATA SHARMA" +
+                             "write \"programmer detail\" to know more", Toast.LENGTH_LONG).show();
 
-                if (!TextUtils.isEmpty(getEditText()))
+                }
+                else if(getEditText().equals("programmer detail")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("linkedin://you"));
+                    final PackageManager packageManager = Objects.requireNonNull(getContext()).getPackageManager();
+                    final List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                    if (list.isEmpty()) {
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/subrata-sharma-b39745133/"));
+                    }
+                    startActivity(intent);
+                }
+                else if (!TextUtils.isEmpty(getEditText()))
                 {
                     Geocoder geocoder = new Geocoder(getContext());
 

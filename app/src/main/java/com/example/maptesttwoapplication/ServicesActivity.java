@@ -27,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import javax.annotation.Nullable;
 
 public class ServicesActivity extends AppCompatActivity {
-    TextView companyName,ownerName,ownerContactNo,ownerEmail,userName;
+    TextView companyName,ownerName,ownerContactNo,aboutCompany,serviceProcess,ownerWord;
     String companyId="";
     String clientName="";
     String serviceChoice;
@@ -43,8 +43,10 @@ public class ServicesActivity extends AppCompatActivity {
         companyName=findViewById(R.id.service_company_name);
         ownerName=findViewById(R.id.owner_name);
         ownerContactNo=findViewById(R.id.contact_no);
-        ownerEmail=findViewById(R.id.email);
-        userName=findViewById(R.id.user_name);
+        aboutCompany=findViewById(R.id.about_company);
+        serviceProcess=findViewById(R.id.service_process);
+        ownerWord=findViewById(R.id.owner_word);
+
 
 
 
@@ -70,9 +72,12 @@ public class ServicesActivity extends AppCompatActivity {
                 String contactNo = mapLocation.getContactNo();
 
 
-                companyName.setText("Company Name:"+company);
-                ownerName.setText("owner Name:"+registerName);
-                ownerContactNo.setText("owner contact no:"+contactNo);
+                companyName.setText(company);
+                ownerName.setText("Owner Name:  "+registerName);
+                ownerContactNo.setText("Contact No:  "+contactNo);
+                aboutCompany.setText(mapLocation.getAbout_company());
+                serviceProcess.setText(mapLocation.getService_process());
+                ownerWord.setText(mapLocation.getOwner_word());
                 DocumentReference locationRef =db.collection("user_registration").document(firebaseUser.getUid());
                 locationRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -84,7 +89,7 @@ public class ServicesActivity extends AppCompatActivity {
                         assert documentSnapshot != null;
                         UserData userData = documentSnapshot.toObject(UserData.class);
                         clientName=userData.getUserName();
-                        userName.setText(clientName);
+                       // userName.setText(clientName);
 
                     }
                 });

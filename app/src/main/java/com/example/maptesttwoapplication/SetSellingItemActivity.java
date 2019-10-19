@@ -39,7 +39,7 @@ import java.util.Objects;
 public class SetSellingItemActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    private EditText product_name,seller_name,seller_contact_no, seller_product_details,selling_price;
+    private EditText product_name, seller_name, seller_contact_no, seller_product_details, selling_price;
     private ImageView mImageView;
     private Button sellButton;
     private ProgressBar progressBar;
@@ -51,20 +51,21 @@ public class SetSellingItemActivity extends AppCompatActivity {
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private Uri mImageUri;
     private StorageTask mUploadTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_selling_item);
 
-        product_name=findViewById(R.id.seller_product_name);
-        seller_name=findViewById(R.id.seller_name);
-        seller_contact_no=findViewById(R.id.seller_contact_no);
-        selling_price=findViewById(R.id.seller_selling_price);
-        seller_product_details=findViewById(R.id.seller_product_details);
+        product_name = findViewById(R.id.seller_product_name);
+        seller_name = findViewById(R.id.seller_name);
+        seller_contact_no = findViewById(R.id.seller_contact_no);
+        selling_price = findViewById(R.id.seller_selling_price);
+        seller_product_details = findViewById(R.id.seller_product_details);
 
-        mImageView=findViewById(R.id.seller_show_choose_file);
-        sellButton=findViewById(R.id.sell_button);
-        progressBar=findViewById(R.id.progress_circular);
+        mImageView = findViewById(R.id.seller_show_choose_file);
+        sellButton = findViewById(R.id.sell_button);
+        progressBar = findViewById(R.id.progress_circular);
         progressBar.setVisibility(View.INVISIBLE);
 
         serviceListitem = getResources().getStringArray(R.array.selling_type);
@@ -72,39 +73,37 @@ public class SetSellingItemActivity extends AppCompatActivity {
     }
 
 
-
     public void sellingType(View view) {
-            AlertDialog.Builder mBuilder = new AlertDialog.Builder(SetSellingItemActivity.this);
-            mBuilder.setTitle(R.string.dialog_title);
-            mBuilder.setSingleChoiceItems(serviceListitem, choice, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    choice=i;
-                }
-            });
-            mBuilder.setCancelable(false);
-            mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int which) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(SetSellingItemActivity.this);
+        mBuilder.setTitle(R.string.dialog_title);
+        mBuilder.setSingleChoiceItems(serviceListitem, choice, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                choice = i;
+            }
+        });
+        mBuilder.setCancelable(false);
+        mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
 
-                    item = serviceListitem[choice];
+                item = serviceListitem[choice];
 
-                }
-            });
-            mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Toast.makeText(getApplicationContext(), "select one service at least", Toast.LENGTH_SHORT).show();
-                    dialogInterface.dismiss();
-                }
-            });
+            }
+        });
+        mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "select one service at least", Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+            }
+        });
 
 
-            AlertDialog mDialog = mBuilder.create();
-            mDialog.show();
+        AlertDialog mDialog = mBuilder.create();
+        mDialog.show();
 
     }
-
 
 
     public void chooseFile(View view) {
@@ -117,6 +116,7 @@ public class SetSellingItemActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -139,10 +139,9 @@ public class SetSellingItemActivity extends AppCompatActivity {
     public void sellButton(View view) {
         if (mUploadTask != null && mUploadTask.isInProgress()) {
             Toast.makeText(getApplicationContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
-        }else if(item.isEmpty()){
+        } else if (item.isEmpty()) {
             sellingType(view);
-        }
-        else {
+        } else {
             uploadFile(item);
             sellButton.setEnabled(false);
         }
@@ -153,53 +152,58 @@ public class SetSellingItemActivity extends AppCompatActivity {
 
 
         progressBar.setVisibility(View.VISIBLE);
-        final DocumentReference documentReference=firebaseFirestore.collection("Seller_Data")
-                .document("new_item").collection(firebaseUser.getUid()).document();
+
 
         if (mImageUri != null) {
-            StorageReference fileReference = firebaseStorage.getReference("Seller_Data")
+            final StorageReference fileReference = firebaseStorage.getReference("Seller_Data")
                     .child("new_item").child(firebaseUser.getUid()).child(System.currentTimeMillis()
                             + "." + getFileExtension(mImageUri));
 
-            mUploadTask = fileReference.putFile(mImageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            mUploadTask = fileReference.putFile(mImageUri).
+                    addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
-                                public void run() {
+                                public void onSuccess(Uri uri) {
                                     progressBar.setVisibility(View.INVISIBLE);
-
+                                    final String downloadUrl =
+                                            uri.toString();
+                                    dataLoadingWithImage(downloadUrl);
                                 }
-                            }, 500);
-                            Toast.makeText(SetSellingItemActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
-                            SellerData sellerData =new SellerData(product_name.getText().toString(),seller_name.getText().toString()
-                            ,seller_contact_no.getText().toString(),selling_price.getText().toString(),item, Objects.requireNonNull(Objects.requireNonNull(taskSnapshot
-                            .getMetadata()).getReference()).getDownloadUrl().toString(),seller_product_details.getText().toString());
-
-                            documentReference.set(sellerData);
-                            startActivity(new Intent(SetSellingItemActivity.this,MapsActivity.class));
-                            overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-
+                            });
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
+    private void dataLoadingWithImage(String url) {
+        final DocumentReference documentReference = firebaseFirestore.collection("Seller_Data")
+                .document("new_item").collection(firebaseUser.getUid()).document();
+
+        Toast.makeText(SetSellingItemActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+        SellerData sellerData = new SellerData(product_name.getText().toString(), seller_name.getText().toString()
+                , seller_contact_no.getText().toString(), selling_price.getText().toString(), item,
+                url, seller_product_details.getText().toString());
+        documentReference.set(sellerData);
+        startActivity(new Intent(SetSellingItemActivity.this, MapsActivity.class));
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(this,MapsActivity.class));
+        startActivity(new Intent(this, MapsActivity.class));
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
 
     }

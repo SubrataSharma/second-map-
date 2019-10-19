@@ -12,30 +12,32 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="170dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/logo"
-        />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="125dp"
+            android:background="@drawable/logo" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="55dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/background_edittext_shape"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="75dp"
         android:gravity="top"
+        android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
         android:hint="Email"
         android:id="@+id/user_login_name"/>
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="55dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -44,12 +46,13 @@
         android:gravity="top"
         android:layout_centerHorizontal="true"
         android:hint="Password"
+        android:inputType="textPassword"
         android:layout_below="@+id/user_login_name"
         android:id="@+id/user_login_pass"/>
     <Button
         android:id="@+id/user_login_submit_button"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
@@ -61,21 +64,39 @@
         android:text="Login"
         android:textAllCaps="false"
         android:onClick="userLoginSubmitButton"/>
-    <TextView
-        android:id="@+id/sign_up_option"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_centerHorizontal="true"
-        android:textStyle="italic"
-        android:textSize="25dp"
-        android:background="?attr/selectableItemBackground"
-        android:layout_below="@+id/user_login_submit_button"
-        android:textColor="@color/design_default_color_primary"
-        android:text="Sign Up Here"
-        android:onClick="signUpOption"/>
+
+        <TextView
+            android:id="@+id/sign_up_option_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="260dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_alignParentBottom="true"
+            android:textStyle="italic"
+            android:textSize="16sp"
+            android:layout_below="@+id/user_login_submit_button"
+            android:textColor="@color/cardview_dark_background"
+            android:text="Don't have account ?"
+            />
+        <TextView
+            android:id="@+id/sign_up_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="7dp"
+            android:layout_alignParentBottom="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/sign_up_option_text"
+            android:background="?attr/selectableItemBackground"
+            android:textColor="@color/design_default_color_primary"
+            android:text="Sign Up Here"
+            android:onClick="signUpOption"/>
+
     </RelativeLayout>
     </ScrollView>
+
 
 </RelativeLayout>
