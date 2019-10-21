@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,10 +35,11 @@ import java.util.List;
 public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.ViewHolder> {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     private Context mContext;
     private List<SellerData> mUsers;
+
 
     public SellerAdapter(List<SellerData> mUsers, Context mContext) {
         this.mUsers = mUsers;
@@ -57,27 +60,7 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final SellerData serviceListData = mUsers.get(position);
-        /*if (serviceListData.isStatus()) {
-            String text = "your appointment of " + "<font color='blue'>" + serviceListData.getServiceType() + "</font>" + "<br>"
-                    + "service has been booked in " + "<font color='blue'>" + serviceListData.getCompany_name() + "</font>" + "<br>"
-                    + "please go there in " + "<font color='#ff0000'>" + serviceListData.getServiceTime() + "</font>" + "<br>"
-                    + "for more details contact " + "<font color='blue'>" + serviceListData.getCompany_contact_no() + "</font> or" + "<br>"
-                    + "<font color='blue'>" + serviceListData.getCompany_contact_email() + "</font>" + "<br>"
-                    + "<h6>status:<font color='#228B22'> pending</font></h6>";
 
-            holder.service_type.setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_COMPACT), TextView.BufferType.SPANNABLE);
-
-        } else {
-            String text = "your service of " + "<font color='blue'>" + serviceListData.getServiceType() + "</font>" + "<br>"
-                    + "is completed in " + "<font color='blue'>" + serviceListData.getCompany_name() + "</font>" + "<br>"
-                    + "please go there in " + "<font color='#ff0000'>" + serviceListData.getServiceTime() + "</font>" + "<br>"
-                    + "for more details contact " + "<font color='blue'>" + serviceListData.getCompany_contact_no() + "</font> or" + "<br>"
-                    + "<font color='blue'>" + serviceListData.getCompany_contact_email() + "</font>" + "<br>"
-                    + "<h6>status:<font color='#228B22'> completed</font></h6>";
-            holder.service_type.setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_COMPACT), TextView.BufferType.SPANNABLE);
-
-
-        }*/
         holder.seller_price_data.setText("₹ "+serviceListData.getSellingPrice());
         holder.seller_data.setText("" + serviceListData.getProductName() + "\n"
                 + serviceListData.getSellerName());
@@ -89,7 +72,53 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.ViewHolder
                 .into(holder.seller_product_image);
 
 
+        holder.delete_option_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(mContext, holder.delete_option_button);
 
+                popup.inflate(R.menu.delete_option);
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.menu_delete_option) {
+                            db.collection("Seller_Data").document("new_item")
+                                    .collection(firebaseUser.getUid()).document(serviceListData.getSellingId()).delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(mContext, "item deleted", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+                            StorageReference photoRef = firebaseStorage.getReferenceFromUrl(serviceListData.getFileUrl());
+                                    photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(mContext, "file deleted", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            deleteFromBuyer(serviceListData);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+            }
+        });
+    }
+
+    private void deleteFromBuyer(SellerData serviceListData) {
+        db.collection("buyer_Data").document(serviceListData.getSellingId()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(mContext, "item deleted from buyer", Toast.LENGTH_LONG).show();
+
+                    }
+                });
     }
 
     @Override
@@ -99,7 +128,7 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.ViewHolder
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView seller_price_data,seller_data;
+        private TextView seller_price_data,seller_data,delete_option_button;
         private ImageView seller_product_image;
 
 
@@ -108,6 +137,7 @@ public class SellerAdapter extends RecyclerView.Adapter<SellerAdapter.ViewHolder
             seller_price_data = itemView.findViewById(R.id.seller_price_data);
             seller_data = itemView.findViewById(R.id.seller_data);
             seller_product_image = itemView.findViewById(R.id.seller_product_image);
+            delete_option_button = itemView.findViewById(R.id.textView_delete_Options);
 
 
         }

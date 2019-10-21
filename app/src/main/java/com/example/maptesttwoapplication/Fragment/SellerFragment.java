@@ -77,7 +77,7 @@ public class SellerFragment extends Fragment {
         serviceLocationRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-
+                sellerDataList.clear();
                 assert queryDocumentSnapshots != null;
                 for(QueryDocumentSnapshot documentSnapshot:queryDocumentSnapshots){
                     SellerData sellerData = documentSnapshot.toObject(SellerData.class);

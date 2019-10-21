@@ -39,7 +39,8 @@ import java.util.Objects;
 public class SetSellingItemActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    private EditText product_name, seller_name, seller_contact_no, seller_product_details, selling_price;
+    private EditText product_name, seller_name, seller_contact_no, seller_product_details
+            , selling_price,seller_contact_details;
     private ImageView mImageView;
     private Button sellButton;
     private ProgressBar progressBar;
@@ -62,6 +63,7 @@ public class SetSellingItemActivity extends AppCompatActivity {
         seller_contact_no = findViewById(R.id.seller_contact_no);
         selling_price = findViewById(R.id.seller_selling_price);
         seller_product_details = findViewById(R.id.seller_product_details);
+        seller_contact_details = findViewById(R.id.seller_contact_detail);
 
         mImageView = findViewById(R.id.seller_show_choose_file);
         sellButton = findViewById(R.id.sell_button);
@@ -155,10 +157,11 @@ public class SetSellingItemActivity extends AppCompatActivity {
 
 
         if (mImageUri != null) {
+            String fileName = String.valueOf(System.currentTimeMillis());
             final StorageReference fileReference = firebaseStorage.getReference("Seller_Data")
-                    .child("new_item").child(firebaseUser.getUid()).child(System.currentTimeMillis()
+                    .child("new_item").child(firebaseUser.getUid()).child(fileName
                             + "." + getFileExtension(mImageUri));
-
+            final String imageFileName =fileName+ "." + getFileExtension(mImageUri);
             mUploadTask = fileReference.putFile(mImageUri).
                     addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -169,7 +172,7 @@ public class SetSellingItemActivity extends AppCompatActivity {
                                     progressBar.setVisibility(View.INVISIBLE);
                                     final String downloadUrl =
                                             uri.toString();
-                                    dataLoadingWithImage(downloadUrl);
+                                    dataLoadingWithImage(downloadUrl,imageFileName);
                                 }
                             });
                         }
@@ -187,17 +190,27 @@ public class SetSellingItemActivity extends AppCompatActivity {
         }
     }
 
-    private void dataLoadingWithImage(String url) {
+    private void dataLoadingWithImage(String url,String imageFileName) {
         final DocumentReference documentReference = firebaseFirestore.collection("Seller_Data")
                 .document("new_item").collection(firebaseUser.getUid()).document();
 
         Toast.makeText(SetSellingItemActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
-        SellerData sellerData = new SellerData(product_name.getText().toString(), seller_name.getText().toString()
+        SellerData sellerData = new SellerData(documentReference.getId(),product_name.getText().toString(), seller_name.getText().toString()
                 , seller_contact_no.getText().toString(), selling_price.getText().toString(), item,
-                url, seller_product_details.getText().toString());
+                url, seller_product_details.getText().toString(),seller_contact_details.getText().toString(),imageFileName);
         documentReference.set(sellerData);
+        loadDataForBuyer(documentReference.getId(),url,imageFileName);
         startActivity(new Intent(SetSellingItemActivity.this, MapsActivity.class));
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+    }
+
+    private void loadDataForBuyer(String id,String url,String imageFileName) {
+        DocumentReference documentReference = firebaseFirestore.collection("buyer_Data")
+                .document(id);
+        SellerData sellerData = new SellerData(documentReference.getId(),product_name.getText().toString(), seller_name.getText().toString()
+                , seller_contact_no.getText().toString(), selling_price.getText().toString(), item,
+                url, seller_product_details.getText().toString(),seller_contact_details.getText().toString(),imageFileName);
+        documentReference.set(sellerData);
     }
 
     @Override
