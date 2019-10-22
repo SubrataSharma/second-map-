@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "667304421198",
-    "firebase_url": "https://maptesttwo-application.firebaseio.com",
-    "project_id": "maptesttwo-application",
-    "storage_bucket": "maptesttwo-application.appspot.com"
+    "project_number": "274623227556",
+    "firebase_url": "https://r8zone-82301.firebaseio.com",
+    "project_id": "r8zone-82301",
+    "storage_bucket": "r8zone-82301.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:667304421198:android:b36f17803c9ab39b05201f",
+        "mobilesdk_app_id": "1:274623227556:android:3cb8ebb6e43ce4c5aba831",
         "android_client_info": {
           "package_name": "com.example.maptesttwoapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "667304421198-fksh7doe8fcs487ukas3b4jj0unto71a.apps.googleusercontent.com",
+          "client_id": "274623227556-bj6g559g0i0p552o9ac2i2g2f23um2k3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.maptesttwoapplication",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "667304421198-4atj2h3s900ieasolmbi724fhsk0s3sf.apps.googleusercontent.com",
+          "client_id": "274623227556-gk6n0mmgbvrgo1cjhkk8m4l6di1aae78.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBBU6LXTrhyW6hSWvPTTaruL-63hfn_Fjw"
+          "current_key": "AIzaSyDQgwaDtsMx0Hk7KOywNrExJQMuoh8GqJo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "667304421198-4atj2h3s900ieasolmbi724fhsk0s3sf.apps.googleusercontent.com",
+              "client_id": "274623227556-gk6n0mmgbvrgo1cjhkk8m4l6di1aae78.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -4,16 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ass"
     tools:context=".ShowBuyerDataActivity">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/buyer_data_scrollable">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/image_cardview"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="350dp"
             android:layout_marginTop="7dp"
             android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/background_shape_add">
+            android:layout_marginEnd="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -46,33 +53,105 @@
                     android:text="data"
                     android:textStyle="bold"
                     android:textColor="#000"
-                    android:textSize="16sp" />
+                    android:textSize="19sp" />
                 <TextView
-                    android:id="@+id/buyer_data_show"
+                    android:id="@+id/buyer_product_name_address_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/buyer_price_data_show"
                     android:layout_marginStart="16dp"
                     android:text="data"
                     android:textColor="#000"
-                    android:textSize="13sp" />
+                    android:textSize="16sp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-    <Button
-        android:id="@+id/call_To_Seller_Button"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_alignParentBottom="true"
-        android:textSize="19dp"
-        android:background="@drawable/background_shape"
-        android:textColor="@color/white"
-        android:text="Call"
-        android:textAllCaps="false"
-        android:onClick="callToSellerButton"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/product_detail_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_below="@+id/image_cardview">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/product_detail_text_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7sp"
+                    android:layout_marginStart="16dp"
+                    android:text="Product Detail :"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/product_detail_data_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="30sp"
+                    android:layout_below="@+id/product_detail_text_show"
+                    android:layout_marginStart="16dp"
+                    android:text="data"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/seller_detail_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_below="@+id/product_detail_cardview">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/seller_text_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="7sp"
+                    android:text="Seller Detail :"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/seller_data_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:layout_below="@+id/seller_text_show"
+                    android:layout_marginStart="16dp"
+                    android:text="data"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10sp"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/call_To_Seller_Button"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="7sp"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/seller_detail_cardview"
+                android:textSize="19sp"
+                android:background="@drawable/background_shape"
+                android:textColor="@color/white"
+                android:text="Call"
+                android:textAllCaps="false"
+                android:onClick="callToSellerButton"/>
+        </RelativeLayout>
+    </ScrollView>
+
 
 
 </RelativeLayout>
