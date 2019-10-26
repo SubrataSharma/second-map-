@@ -6,6 +6,7 @@ public class CompanyDealData {
     private String userName;
     private String serviceType;
     private String contact;
+    private String contactNo;
     private String userId;
 
 
@@ -14,13 +15,12 @@ public class CompanyDealData {
     }
 
 
-
-    public CompanyDealData(String userName, String serviceType, String contact, String userId) {
+    public CompanyDealData(String userName, String serviceType, String contact, String contactNo, String userId) {
         this.userName = userName;
         this.serviceType = serviceType;
         this.contact = contact;
+        this.contactNo = contactNo;
         this.userId = userId;
-
     }
 
     public String getUserName() {
@@ -55,4 +55,11 @@ public class CompanyDealData {
         this.userId = userId;
     }
 
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
 }

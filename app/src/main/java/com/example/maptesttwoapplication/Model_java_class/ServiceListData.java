@@ -11,16 +11,18 @@ public class ServiceListData {
     private String serviceTime;
     private String company_name;
     private String company_contact_no;
+    private String user_contact_no;
     private boolean status;
 
     public ServiceListData() {
     }
 
-    public ServiceListData(String userName, String serviceType, String company_contact_email, String userId
-            , String serviceTime,boolean status) {
+    public ServiceListData(String userName, String serviceType, String company_contact_email,String user_contact_no
+                           ,String userId, String serviceTime,boolean status) {
         this.userName = userName;
         this.serviceType = serviceType;
         this.company_contact_email = company_contact_email;
+        this.user_contact_no = user_contact_no;
         this.userId = userId;
         this.serviceTime = serviceTime;
         this.status = status;
@@ -101,5 +103,13 @@ public class ServiceListData {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getUser_contact_no() {
+        return user_contact_no;
+    }
+
+    public void setUser_contact_no(String user_contact_no) {
+        this.user_contact_no = user_contact_no;
     }
 }

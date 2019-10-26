@@ -32,7 +32,7 @@ import java.util.List;
 
 public class MechanicRegistrationSecondActivity extends AppCompatActivity {
 
-    EditText company_name,register_name,contact_no, pass, con_pass,about_company
+    EditText company_name,register_name,contact_no,about_company
             ,service_process,owner_word;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser firebaseUser;
@@ -111,34 +111,24 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
         company_name=findViewById(R.id.mechanic_company_name);
         register_name=findViewById(R.id.mechanic_register_name);
         contact_no=findViewById(R.id.mechanic_contact_no);
-        pass=findViewById(R.id.mechanic_pass);
-        con_pass=findViewById(R.id.mechanic_con_pass);
         about_company=findViewById(R.id.about_company_detail);
         service_process=findViewById(R.id.service_process_detail);
         owner_word=findViewById(R.id.owner_word_detail);
         String company= company_name.getText().toString();
         String registerName= register_name.getText().toString();
         String contactNo= contact_no.getText().toString();
-        String pin= pass.getText().toString();
-        String conPin= con_pass.getText().toString();
          double lat =  getIntent().getExtras().getDouble("latitude");
          double lon =  getIntent().getExtras().getDouble("longitude");
+         String pin = "1784554631231254";
         String aboutCompany= about_company.getText().toString();
         String serviceProcess= service_process.getText().toString();
         String ownerWord= owner_word.getText().toString();
 
         if(company.isEmpty()||(lat==0)||(lon==0)||registerName.isEmpty()||contactNo.isEmpty()
-                 ||pin.isEmpty()||conPin.isEmpty()||allService.isEmpty()||aboutCompany.isEmpty()
+        ||allService.isEmpty()||aboutCompany.isEmpty()
                 ||serviceProcess.isEmpty()||ownerWord.isEmpty()){
             progressBar.setVisibility(View.INVISIBLE);
              Toast.makeText(this, "All fields are requires", Toast.LENGTH_SHORT).show();
-         }else if(pin.length() < 6){
-            progressBar.setVisibility(View.INVISIBLE);
-            Toast.makeText(this, "Password must be at least 6 digits", Toast.LENGTH_SHORT).show();
-         }else if(!pin.equals(conPin)) {
-            progressBar.setVisibility(View.INVISIBLE);
-            Toast.makeText(this, "please enter the same password again", Toast.LENGTH_SHORT).show();
-             //register(txt_username,txt_email,txt_password);
          }else {
              firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
              assert firebaseUser != null;
@@ -146,7 +136,7 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
 
                  DocumentReference locationRef =db.collection("company_registration").document(userid);
                  MapLocation mapLocation = new MapLocation(userid,lat, lon, company,
-                         registerName,contactNo,Integer.parseInt(pin),allService
+                         registerName,contactNo,Long.parseLong(pin),allService
                          ,aboutCompany,serviceProcess,ownerWord);
                  locationRef.set(mapLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
                      @Override
@@ -154,7 +144,7 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
                          if(task.isSuccessful()){
                              progressBar.setVisibility(View.INVISIBLE);
                              Intent intent = new Intent(MechanicRegistrationSecondActivity.this,MapsActivity.class);
-                             Toast.makeText(MechanicRegistrationSecondActivity.this,"successfully registered",Toast.LENGTH_LONG).show();
+                             Toast.makeText(MechanicRegistrationSecondActivity.this,"thanks for registering you will get a call from our customer service",Toast.LENGTH_LONG).show();
                              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                              startActivity(intent);
                              finish();
@@ -184,7 +174,7 @@ public class MechanicRegistrationSecondActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }
 
-    public void previousButton(View view) {
+    public void cancelButton(View view) {
         startActivity(new Intent(MechanicRegistrationSecondActivity.this,MechanicRegistrationActivity.class));
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
     }

@@ -19,12 +19,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Objects;
 
 
 public class UserRegisterActivity extends AppCompatActivity {
-    private EditText Username,userEmail,Pass,conPass;
+    private EditText Username,userEmail,Pass,conPass,contact_no;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth auth= FirebaseAuth.getInstance();
@@ -42,13 +43,16 @@ public class UserRegisterActivity extends AppCompatActivity {
         userEmail=findViewById(R.id.user_registration_email);
         Pass=findViewById(R.id.user_registration_pass);
         conPass=findViewById(R.id.user_registration_con_pass);
+        contact_no=findViewById(R.id.user_contact_no);
 
         String txt_username = Username.getText().toString();
         String txt_email = userEmail.getText().toString();
         String txt_pass = Pass.getText().toString();
         String txt_conpass = conPass.getText().toString();
+        String contactNo = contact_no.getText().toString();
 
-        if(TextUtils.isEmpty(txt_username)||TextUtils.isEmpty(txt_email)||TextUtils.isEmpty(txt_pass)||TextUtils.isEmpty(txt_conpass)){
+        if(TextUtils.isEmpty(txt_username)||TextUtils.isEmpty(txt_email)||TextUtils.isEmpty(contactNo)
+                ||TextUtils.isEmpty(txt_pass)||TextUtils.isEmpty(txt_conpass)){
             Toast.makeText(UserRegisterActivity.this,"All fields are requires ",Toast.LENGTH_LONG).show();
         }else if(txt_pass.length() < 6){
             Toast.makeText(UserRegisterActivity.this, "Password must be at least 6 digits", Toast.LENGTH_SHORT).show();
@@ -57,7 +61,7 @@ public class UserRegisterActivity extends AppCompatActivity {
             //register(txt_username,txt_email,txt_password);
         }else {
 
-            register(txt_username,txt_email,txt_pass);
+            register(txt_username,txt_email,txt_pass,contactNo);
 
         }
 
@@ -65,7 +69,7 @@ public class UserRegisterActivity extends AppCompatActivity {
 
     }
 
-    public void register(final String username, final String email, String password){
+    public void register(final String username, final String email, String password, final String contactNo){
         auth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -75,10 +79,11 @@ public class UserRegisterActivity extends AppCompatActivity {
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             assert firebaseUser != null;
                             String userid = firebaseUser.getUid();
+                            String dvicetoken = FirebaseInstanceId.getInstance().getToken();
 
                             DocumentReference locationRef =db.collection("user_registration").document(userid);
 
-                            UserData userData=new UserData(userid,username,email);
+                            UserData userData=new UserData(userid,username,email,contactNo);
 
 
                             locationRef.set(userData).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -1,17 +1,24 @@
 package com.example.maptesttwoapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maptesttwoapplication.Model_java_class.CompanyDealData;
+import com.example.maptesttwoapplication.Model_java_class.DeliveryNotificationData;
 import com.example.maptesttwoapplication.Model_java_class.MapLocation;
 import com.example.maptesttwoapplication.Model_java_class.UserData;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -20,8 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import javax.annotation.Nullable;
@@ -30,6 +36,7 @@ public class ServicesActivity extends AppCompatActivity {
     TextView companyName,ownerName,ownerContactNo,aboutCompany,serviceProcess,ownerWord;
     String companyId="";
     String clientName="";
+    String userContactNo="";
     String serviceChoice;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -88,7 +95,9 @@ public class ServicesActivity extends AppCompatActivity {
                         }
                         assert documentSnapshot != null;
                         UserData userData = documentSnapshot.toObject(UserData.class);
+                        assert userData != null;
                         clientName=userData.getUserName();
+                        userContactNo=userData.getContactNo();
                        // userName.setText(clientName);
 
                     }
@@ -106,7 +115,8 @@ public class ServicesActivity extends AppCompatActivity {
         DocumentReference serviceLocationRef =db.collection("company_deal_details").document("pending_request").collection(companyId).document(firebaseUser.getUid());
 
 
-        CompanyDealData companyDealData=new CompanyDealData(clientName,serviceChoice,firebaseUser.getEmail(),firebaseUser.getUid());
+        CompanyDealData companyDealData=new CompanyDealData(clientName,serviceChoice,firebaseUser.getEmail()
+                ,userContactNo,firebaseUser.getUid());
         serviceLocationRef.set(companyDealData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -116,6 +126,36 @@ public class ServicesActivity extends AppCompatActivity {
 
             }
         });
+
+        DocumentReference DeliveryNotificationListReference = db.collection("notification_activity").document();
+        DeliveryNotificationData deliveryNotificationData =new DeliveryNotificationData(firebaseUser.getUid()
+                ,companyDealData.getUserName(),companyDealData.getContactNo());
+        DeliveryNotificationListReference.set(deliveryNotificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                sendingNotificationToUser();
+            }
+        });
+    }
+
+    private void sendingNotificationToUser() {
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
+            NotificationChannel channel =
+                    new NotificationChannel("NewProduct","myNotification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("notification")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "successful";
+                        if(!task.isSuccessful()){
+                            msg="failed";
+                        }
+                        Toast.makeText(ServicesActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

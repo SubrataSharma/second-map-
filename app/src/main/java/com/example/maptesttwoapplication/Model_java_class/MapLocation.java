@@ -11,7 +11,7 @@ public class MapLocation {
     private String company;
     private String registerName;
     private String contactNo;
-    private int pin;
+    private long pin;
 
     private List<String> services;
     private String about_company;
@@ -23,10 +23,8 @@ public class MapLocation {
     public MapLocation() {
     }
 
-
-
     public MapLocation(String id, double latitude, double longitude, String company, String registerName
-            , String contactNo, int pin, List<String> services, String about_company, String service_process
+            , String contactNo, long pin, List<String> services, String about_company, String service_process
             , String owner_word) {
         this.id = id;
         this.latitude = latitude;
@@ -65,9 +63,12 @@ public class MapLocation {
         return contactNo;
     }
 
-
-    public int getPin() {
+    public long getPin() {
         return pin;
+    }
+
+    public void setPin(long pin) {
+        this.pin = pin;
     }
 
     public List<String> getServices() {
@@ -98,9 +99,6 @@ public class MapLocation {
         this.contactNo = contactNo;
     }
 
-    public void setPin(int pin) {
-        this.pin = pin;
-    }
 
     public void setServices(List<String> services) {
         this.services = services;

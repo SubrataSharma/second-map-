@@ -58,30 +58,7 @@
             android:layout_marginTop="15dp"
             android:layout_below="@+id/mechanic_register_name"/>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/background_mechanic_edittext_shape"
-            android:id="@+id/mechanic_pass"
-            android:hint="PIN"
-            android:inputType="number"
-            android:password="true"
-            android:layout_marginTop="15dp"
-            android:layout_below="@+id/mechanic_contact_no"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/mechanic_con_pass"
-            android:hint="confirm PIN"
-            android:inputType="number"
-            android:background="@drawable/background_mechanic_edittext_shape"
-            android:password="true"
-            android:layout_marginTop="15dp"
-            android:layout_below="@+id/mechanic_pass"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -92,7 +69,7 @@
             android:background="@drawable/background_mechanic_edittext_shape"
             android:layout_marginTop="15dp"
             android:onClick="serviceType"
-            android:layout_below="@+id/mechanic_con_pass"/>
+            android:layout_below="@+id/mechanic_contact_no"/>
         <TextView
             android:id="@+id/few_suggestion_word"
             android:layout_width="300dp"

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".Delivery_boy.DeliveryboyLoginActivity">
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/mechanic_login_logo"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="125dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/logo"
+            />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/background_edittext_shape"
+            android:layout_marginTop="125dp"
+            android:gravity="top"
+            android:inputType="number"
+            android:layout_centerHorizontal="true"
+            android:hint="Enter Pin"
+            android:layout_below="@+id/mechanic_login_logo"
+            android:id="@+id/mechanic_login_pass"/>
+        <Button
+            android:id="@+id/user_login_submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="170dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:layout_below="@+id/mechanic_login_pass"
+            android:background="@drawable/background_shape"
+            android:textColor="@color/white"
+            android:text="Login"
+            android:textAllCaps="false"
+            android:onClick="deliveryBoyLoginSubmitButton"/>
+        <TextView
+            android:id="@+id/sign_up_option"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="290dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="italic"
+            android:layout_below="@+id/user_login_submit_button"
+            android:textSize="15sp"
+            android:background="?attr/selectableItemBackground"
+            android:textColor="@color/design_default_color_primary"
+            android:text="You can get a job opportunity by sign up your name here"
+            android:onClick="deliveryBoySignUpOption"/>
+
+    </RelativeLayout>
+</ScrollView>
+
+</RelativeLayout>

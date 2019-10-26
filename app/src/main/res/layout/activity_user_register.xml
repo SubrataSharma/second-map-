@@ -14,8 +14,8 @@
         android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/user_register_logo"
-        android:layout_width="270dp"
-        android:layout_height="100dp"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
@@ -31,7 +31,7 @@
         android:textSize="15dp"
         android:layout_below="@+id/user_register_logo"
         android:textColor="@color/colorPrimary"
-        android:text="*please do not use the same email you use for mechanic registration"/>
+        android:text="        *thank you for choosing our service"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -49,6 +49,18 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="55dp"
+        android:id="@+id/user_contact_no"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="contact no"
+        android:inputType="number"
+        android:background="@drawable/background_mechanic_edittext_shape"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"
+        android:layout_below="@+id/user_registration_name"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -57,7 +69,7 @@
         android:gravity="top"
         android:layout_centerHorizontal="true"
         android:hint="Email"
-        android:layout_below="@+id/user_registration_name"
+        android:layout_below="@+id/user_contact_no"
         android:id="@+id/user_registration_email"/>
     <EditText
         android:layout_width="match_parent"

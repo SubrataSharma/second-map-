@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -19,13 +22,16 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.maptesttwoapplication.Model_java_class.SellerData;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -72,9 +78,9 @@ public class SetSellingItemActivity extends AppCompatActivity {
 
         serviceListitem = getResources().getStringArray(R.array.selling_type);
 
+        sendingNotificationToUser();
+
     }
-
-
     public void sellingType(View view) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(SetSellingItemActivity.this);
         mBuilder.setTitle(R.string.dialog_title);
@@ -212,7 +218,25 @@ public class SetSellingItemActivity extends AppCompatActivity {
                 url, seller_product_details.getText().toString(),seller_contact_details.getText().toString(),imageFileName);
         documentReference.set(sellerData);
     }
-
+    private void sendingNotificationToUser() {
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
+            NotificationChannel channel =
+                    new NotificationChannel("NewProduct","myNotification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("selling")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    String msg = "successful";
+                    if(!task.isSuccessful()){
+                        msg="failed";
+                    }
+                        Toast.makeText(SetSellingItemActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

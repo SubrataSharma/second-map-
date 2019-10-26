@@ -1,8 +1,12 @@
 package com.example.maptesttwoapplication.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +20,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maptesttwoapplication.Model_java_class.CompanyDealData;
+import com.example.maptesttwoapplication.Model_java_class.DeliveryNotificationData;
 import com.example.maptesttwoapplication.Model_java_class.MapLocation;
 import com.example.maptesttwoapplication.Model_java_class.ServiceListData;
 import com.example.maptesttwoapplication.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,9 +36,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Calendar;
 import java.util.List;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 
 public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAdapter.ViewHolder> {
@@ -69,12 +79,15 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
         return new ServiceRequestAdapter.ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final CompanyDealData companyDealData = mUsers.get(position);
-        holder.service_type.setText(companyDealData.getServiceType());
-        holder.service_user.setText(companyDealData.getUserName());
-        holder.user_contact.setText(companyDealData.getContact());
+        holder.service_type.setText(companyDealData.getServiceType()+"SERVICE");
+        holder.service_user.setText(companyDealData.getUserName()+" want a "+companyDealData.getServiceType()
+                +" service from your company");
+        holder.user_contact.setText("contact "+companyDealData.getContactNo()+"\n"
+                                +"or mail "+companyDealData.getContact()+" for more detail.");
 
         holder.addService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +188,7 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
         DocumentReference serviceListReference = db.collection("company_deal_details").document("service_list")
                 .collection(firebaseUser.getUid()).document(companyDealData.getUserId());
         ServiceListData serviceListData = new ServiceListData(companyDealData.getUserName()
-                ,companyDealData.getServiceType(),companyDealData.getContact(),companyDealData.getUserId(),service_date,true);
+                ,companyDealData.getServiceType(),companyDealData.getContact(),companyDealData.getContactNo(),companyDealData.getUserId(),service_date,true);
         serviceListReference.set(serviceListData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -208,10 +221,11 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
 
     }
 
-    private void addDataUserActivity(CompanyDealData companyDealData,String company_name,String company_contact_no){
+    private void addDataUserActivity(CompanyDealData companyDealData,String company_name
+            ,String company_contact_no){
 
         DocumentReference userActivityListReference = db.collection("user_activity").document(companyDealData.getUserId())
-                .collection("user_activity_data").document(firebaseUser.getUid());
+                .collection("user_activity_data").document();
         ServiceListData userActivityListData = new ServiceListData(companyDealData.getUserName()
                 ,companyDealData.getServiceType(),firebaseUser.getEmail(),companyDealData.getUserId(),service_date,company_name,company_contact_no,true);
         userActivityListReference.set(userActivityListData).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -220,6 +234,38 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
                 Toast.makeText(mContext, "user has been notified", Toast.LENGTH_SHORT).show();
             }
         });
+
+        DocumentReference DeliveryNotificationListReference = db.collection("notification_activity").document();
+        DeliveryNotificationData deliveryNotificationData =new DeliveryNotificationData(firebaseUser.getUid()
+                ,companyDealData.getUserName(),companyDealData.getContactNo());
+        DeliveryNotificationListReference.set(deliveryNotificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                sendingNotificationToUser();
+            }
+        });
+
+    }
+
+    private void sendingNotificationToUser() {
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
+            NotificationChannel channel =
+                    new NotificationChannel("NewProduct","myNotification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(mContext,NotificationManager.class);
+            assert manager != null;
+            manager.createNotificationChannel(channel);
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("notification")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "successful";
+                        if(!task.isSuccessful()){
+                            msg="failed";
+                        }
+                        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

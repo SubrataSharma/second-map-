@@ -1,9 +1,13 @@
 package com.example.maptesttwoapplication.Adapter;
 
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +21,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maptesttwoapplication.Model_java_class.CompanyDealData;
+import com.example.maptesttwoapplication.Model_java_class.DeliveryNotificationData;
 import com.example.maptesttwoapplication.Model_java_class.MapLocation;
 import com.example.maptesttwoapplication.Model_java_class.ServiceListData;
 import com.example.maptesttwoapplication.R;
+import com.example.maptesttwoapplication.SetSellingItemActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,9 +37,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Calendar;
 import java.util.List;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 
 public class CurrentServiceAdapter extends RecyclerView.Adapter<CurrentServiceAdapter.ViewHolder> {
@@ -69,12 +80,14 @@ public class CurrentServiceAdapter extends RecyclerView.Adapter<CurrentServiceAd
         return new CurrentServiceAdapter.ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final ServiceListData serviceListData = mUsers.get(position);
         holder.service_type.setText(String.format("%s SERVICE", serviceListData.getServiceType()));
         holder.service_user.setText(serviceListData.getUserName());
-        holder.user_contact.setText(serviceListData.getCompany_contact_email());
+        holder.user_contact.setText(serviceListData.getUser_contact_no()+"\n"
+                +serviceListData.getCompany_contact_email());
         holder.service_date.setText(serviceListData.getServiceTime());
         if(!serviceListData.isStatus()) holder.service_status.setVisibility(View.GONE);
 
@@ -165,7 +178,8 @@ public class CurrentServiceAdapter extends RecyclerView.Adapter<CurrentServiceAd
         DocumentReference serviceListReference = db.collection("company_deal_details").document("service_list")
                 .collection(firebaseUser.getUid()).document(serviceListData.getUserId());
         ServiceListData serviceListData1 = new ServiceListData(serviceListData.getUserName()
-                , serviceListData.getServiceType(), serviceListData.getCompany_contact_email(), serviceListData.getUserId(), service_date, false);
+                , serviceListData.getServiceType(), serviceListData.getCompany_contact_email(),serviceListData.getUser_contact_no(),
+                serviceListData.getUserId(), service_date, false);
         serviceListReference.set(serviceListData1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -200,7 +214,7 @@ public class CurrentServiceAdapter extends RecyclerView.Adapter<CurrentServiceAd
     private void addDataUserActivity(ServiceListData serviceListData, String company_name, String company_contact_no, ViewHolder holder) {
 
         DocumentReference userActivityListReference = db.collection("user_activity").document(serviceListData.getUserId())
-                .collection("user_activity_data").document(firebaseUser.getUid());
+                .collection("user_activity_data").document();
         ServiceListData userActivityListData = new ServiceListData(serviceListData.getUserName()
                 , serviceListData.getServiceType(), firebaseUser.getEmail(), serviceListData.getUserId()
                 , service_date, company_name, company_contact_no, false);
@@ -221,6 +235,36 @@ public class CurrentServiceAdapter extends RecyclerView.Adapter<CurrentServiceAd
                     }
                 });
         holder.service_status.setVisibility(View.GONE);
+
+        DocumentReference DeliveryNotificationListReference = db.collection("notification_activity").document();
+        DeliveryNotificationData deliveryNotificationData =new DeliveryNotificationData(firebaseUser.getUid()
+                ,serviceListData.getUserName(),serviceListData.getUser_contact_no());
+        DeliveryNotificationListReference.set(deliveryNotificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                sendingNotificationToUser();
+            }
+        });
+    }
+    private void sendingNotificationToUser() {
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
+            NotificationChannel channel =
+                    new NotificationChannel("NewProduct","myNotification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(mContext,NotificationManager.class);
+            assert manager != null;
+            manager.createNotificationChannel(channel);
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("notification")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "successful";
+                        if(!task.isSuccessful()){
+                            msg="failed";
+                        }
+                        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 

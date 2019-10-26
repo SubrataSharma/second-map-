@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".Delivery_boy.DeliveryboyRegisterActivity"
+    >
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/logo"
+            />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/mechanic_company_name"
+            android:hint="Area of work"
+            android:layout_below="@+id/logo"
+            android:background="@drawable/background_mechanic_edittext_shape"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="30sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/mechanic_register_name"
+            android:hint="Register name"
+            android:background="@drawable/background_mechanic_edittext_shape"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/mechanic_company_name"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:id="@+id/mechanic_contact_no"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="contact no"
+            android:inputType="number"
+            android:background="@drawable/background_mechanic_edittext_shape"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/mechanic_register_name"/>
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:background="@drawable/background_shape"
+            android:textColor="@color/white"
+            android:text="SUBMIT"
+            android:onClick="submitButton"
+            android:layout_below="@+id/mechanic_contact_no"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+    </RelativeLayout>
+</ScrollView>
+<ProgressBar
+    android:id="@+id/progress_circular"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"/>
+
+</RelativeLayout>

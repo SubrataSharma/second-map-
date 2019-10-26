@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.maptesttwoapplication.Delivery_boy.DeliveryboyLoginActivity;
 import com.example.maptesttwoapplication.Fragment.ActivityFragment;
 import com.example.maptesttwoapplication.Fragment.BuyerFragment;
 import com.example.maptesttwoapplication.Fragment.MapFragment;
@@ -148,13 +149,14 @@ public class MapsActivity extends FragmentActivity implements NavigationView.OnN
 
                 break;
             case R.id.option_delivery_boy:
-                Toast.makeText(this, "this option not available", Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(MapsActivity.this, DeliveryboyLoginActivity.class));
+                finish();
                 break;
             case R.id.option_logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(this,LoginActivity.class));
                 overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-                finish();
                 break;
             default:
                 Toast.makeText(this, "not selected", Toast.LENGTH_SHORT).show();
