@@ -241,13 +241,13 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
         DeliveryNotificationListReference.set(deliveryNotificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                sendingNotificationToUser();
+                //sendingNotificationToUser();
             }
         });
 
     }
 
-    private void sendingNotificationToUser() {
+   /* private void sendingNotificationToUser() {
         if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
             NotificationChannel channel =
                     new NotificationChannel("NewProduct","myNotification", NotificationManager.IMPORTANCE_DEFAULT);
@@ -266,7 +266,7 @@ public class ServiceRequestAdapter extends RecyclerView.Adapter<ServiceRequestAd
                         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
+    }*/
 
 }
 

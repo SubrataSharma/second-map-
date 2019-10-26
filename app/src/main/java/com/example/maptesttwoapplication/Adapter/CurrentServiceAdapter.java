@@ -242,11 +242,11 @@ public class CurrentServiceAdapter extends RecyclerView.Adapter<CurrentServiceAd
         DeliveryNotificationListReference.set(deliveryNotificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                sendingNotificationToUser();
+               // sendingNotificationToUser();
             }
         });
     }
-    private void sendingNotificationToUser() {
+    /*private void sendingNotificationToUser() {
         if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
             NotificationChannel channel =
                     new NotificationChannel("NewProduct","myNotification", NotificationManager.IMPORTANCE_DEFAULT);
@@ -265,7 +265,7 @@ public class CurrentServiceAdapter extends RecyclerView.Adapter<CurrentServiceAd
                         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
+    }*/
 
 
 }

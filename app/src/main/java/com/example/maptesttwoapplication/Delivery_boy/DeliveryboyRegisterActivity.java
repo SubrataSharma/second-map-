@@ -3,7 +3,10 @@ package com.example.maptesttwoapplication.Delivery_boy;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +19,7 @@ import com.example.maptesttwoapplication.MechanicRegistrationSecondActivity;
 import com.example.maptesttwoapplication.Model_java_class.DeliveryBoyData;
 import com.example.maptesttwoapplication.Model_java_class.MapLocation;
 import com.example.maptesttwoapplication.R;
+import com.example.maptesttwoapplication.ServicesActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +72,7 @@ public class DeliveryboyRegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                         progressBar.setVisibility(View.INVISIBLE);
+                        sendingNotificationToUser();
                         Intent intent = new Intent(DeliveryboyRegisterActivity.this, MapsActivity.class);
                         Toast.makeText(DeliveryboyRegisterActivity.this,"thanks for registering you will get a call from our customer service",Toast.LENGTH_LONG).show();
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -89,6 +95,26 @@ public class DeliveryboyRegisterActivity extends AppCompatActivity {
 
 
         }
+    }
+
+    private void sendingNotificationToUser() {
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
+            NotificationChannel channel =
+                    new NotificationChannel("NewProduct","myNotification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("notification")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "successful";
+                        if(!task.isSuccessful()){
+                            msg="failed";
+                        }
+                        Toast.makeText(DeliveryboyRegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

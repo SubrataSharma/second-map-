@@ -133,30 +133,11 @@ public class ServicesActivity extends AppCompatActivity {
         DeliveryNotificationListReference.set(deliveryNotificationData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                sendingNotificationToUser();
             }
         });
     }
 
-    private void sendingNotificationToUser() {
-        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
-            NotificationChannel channel =
-                    new NotificationChannel("NewProduct","myNotification", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
-        FirebaseMessaging.getInstance().subscribeToTopic("notification")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "successful";
-                        if(!task.isSuccessful()){
-                            msg="failed";
-                        }
-                        Toast.makeText(ServicesActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+
 
     @Override
     public void onBackPressed() {
